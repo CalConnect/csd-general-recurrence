@@ -1,0 +1,36 @@
+= CalConnect Standard: Date and time -- General recurrence representation
+:title: Date and time -- General recurrence representation
+:docnumber: CD 18012
+:status: working-draft
+:doctype: standard
+:edition: 1
+:copyright-year: 2018
+:revdate: 2018-08-30T00:00:00Z
+:language: en
+:technical-committee: VCARD
+:draft:
+:toc:
+
+include::sections/0a-foreword.adoc[]
+
+include::sections/0b-intro.adoc[]
+
+include::sections/01-scope.adoc[]
+
+include::sections/02-norm-refs.adoc[]
+
+include::sections/03-termsdef.adoc[]
+
+include::sections/04-integer-ops.adoc[]
+
+include::sections/05-selection.adoc[]
+
+include::sections/06-recurrence.adoc[]
+
+include::sections/a1-eligible-time-intervals.adoc[]
+
+include::sections/a2-5545-conversion.adoc[]
+
+include::sections/a3-exact-duration.adoc[]
+
+include::sections/zz-references.adoc[]

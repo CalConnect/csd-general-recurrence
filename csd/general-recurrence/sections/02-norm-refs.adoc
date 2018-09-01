@@ -1,0 +1,7 @@
+
+[bibliography]
+== Normative References
+
+* [[[ISO8601,ISO 8601:2004]]], _Date and time -- Representation for information interchange_
+
+* [[[CC18011,CC 18011:--]]] footnote:[Under preparation. (Stage at the time of publication CC/DS 18011)], _Date and time -- Explicit representation_

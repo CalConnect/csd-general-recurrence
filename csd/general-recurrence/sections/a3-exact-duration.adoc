@@ -1,0 +1,273 @@
+
+[[annexc]]
+[appendix,obligation=informative]
+== Ambiguities inherent in exact duration calculations
+
+=== General
+
+The exact duration between two instants on a time scale depends on the
+time scale used and is dependent on where these marks occur.
+
+In a Gregorian calendar, for example, a calendar month can have a
+duration of 28, 29, 30, or 31 days depending on the month and whether
+the year is a leap year. Given UTC depends on the leap second mechanism
+for synchronicity with UT1, in a 24-hour clock, the last clock minute
+of the year may have a duration of 59, 60, or 61 seconds.
+
+These examples demonstrate that time scales can be disjoint by nature.
+For example, a Gregorian calendar only contains the "`instant`" February
+29 on a leap year. A time shift change can also cause a rift in the
+time scale, such as on the application or revocation of daylight
+savings time, where the instants are relabeled in bulk.
+
+The calculation of exact duration poses a problem for recurring
+instances.
+
+For example,
+
+* A repeating rule that repeats every year starts on February 29.
+Should the next instance be February 29 of the next leap year, or
+February 28 of the next year?
+
+* July 31 is to be incremented by one month. Should the result be
+August 30 (30 days from July 31) or September 1 (31 days from July 31)?
+
+This section explains the cause of ambiguity and provides guidelines
+as well as an algorithm for resolution.
+
+
+
+=== Cause of ambiguity
+
+The overflow of time scale component values occurs, when the duration
+specifies a value increment of a higher order time scale component, but
+this higher order time scale component does not have the corresponding
+mark in its lower order time scale.
+
+
+=== Guidelines for expressing ambiguous recurring instances
+
+Before an ambiguous recurrent expression is created, the creator
+of such recurring interval rule should be acutely aware of the
+options available for specifying the actual intent.
+
+For example, a monthly recurring rule starting on February 28,
+could represent the following intentions:
+
+* to point to the 28th calendar day of month of every month;
+
+* to point to the last calendar day of every month (such as, when
+February 28th is the last day of the specified starting month); or
+
+* to point to the second-last calendar day of every month (such as,
+when February 29th is the last day of the specified starting month).
+
+
+In case where the creator of such rule could react using an interact
+interface, the creator (or user) could specify his or her intention of
+such a rule and therefore produce a recurring interval rule that does
+not succumb to ambiguity described in this section.
+
+
+[[annexc-algorithm]]
+=== Algorithm to resolve overflows
+
+
+==== General
+
+This section provides an algorithm that calculates a consistent date
+given an origin date (date) and a duration time scale component
+(duration) to apply. This algorithm is noted as `resolve(date, duration)`
+or "`date + duration`" in the text below.
+
+
+==== Prerequisites
+
+An overflow is defined as number exceeding the maximum value accepted
+by the time scale component. For example, an increase of `P1M`
+(duration) to `2018Y12M` (date) will result in the expression
+`2018Y13M`, where the month component is overflowed with value `13`.
+
+An overflow is considered resolved once the overflowed time scale unit
+has transferred its excess to the immediate higher order time scale
+component. For example, the overflowed expression `2018Y13M` is
+resolved to `2019Y1M`.
+
+An overflow can cause multiple carry-overs when the overflow not only
+causes the immediate higher order time scale component to overflow, but
+also subsequent higher order components. For example, the overflowed
+expression `2018Y12M366D` can be resolved to `2018Y24M1D` (which still
+contains an overflow), can be resolved to `2019Y12M1D` (where there is
+no more overflow).
+
+* Split duration according to its time scale components, obtaining a
+set of split duration elements duration_i, where each element is of a
+different time scale unit called `unit_i` for order `i` (the highest order
+time scale unit is denoted as unit_max, the lowest order time scale
+unit is denoted as unit_min).
+
+* Starting from the value of the lowest order time scale unit unit_min
+to the highest order unit unit_max, consider each `duration_i` of `unit_i`:
+
+** Increment date with `duration_i`
++
+[example]
+Given a duration `P2M` to be incremented on a date `2018Y1M`, the resulting
+expression is `2018Y3M`.
++
+[example]
+Given a duration `P2M1DT3H` to be incremented on a date, first increment
+the date with `PT3H`, then with `P1D`, at last with `P2M`.
+
+** If the time scale component at unit_i of date is overflowed due to
+the increase of duration_i (which is also of the same order), resolve
+by performing the following:
+
+*** Carry the overflowed excess of the value at unit_i to the immediate
+higher order time scale component, and reset unit_i. Repeat this step
+with unit_{i+1} until there is no more overflow at time scale
+components from unit_i to unit_max.
+
+*** If a time scale unit in date of a lower order than `unit_i` has
+overflowed, truncate that overflow to the maximum valid value. Repeat
+this step with `unit_{i-1}` until there is no more overflow at time scale
+components from `unit_i` to `unit_min`.
+
+[example]
+To increment a duration of P1M on a date, first resolve overflows at
+the month unit via carry (which may carry over to the year unit, the
+immediate higher order unit), then resolve overflows at the day unit
+via truncate (which may cause reduction in days, the immediate lower
+order unit of the month unit).
+
+The rule for resolving a lower order unit is demonstrated in detail in
+<<annexc-detailed-example>>.
+
+
+[[annexc-demo]]
+==== Algorithm demonstration
+
+
+[example]
+("`2018-01-23`" + "`P1M`") resolves to "`2018-02-23`". There was no overflow
+to be resolved.
+
+
+[example]
+Incrementing "`2018-12-01`" by "`P1M`" gives "`2018-13-01`". The month
+component has overflowed (13 > 12) and according to the resolve
+process, the excess should be carried to year, and the month should be
+reset. Results in "`2019-01-01`".
+
+
+[example]
+Incrementing "`2018-01-31`" with "`P1M`" gives "`2018-02-31`". The month
+component has no overflow but the day component has. Since the day
+component is of a lower order, the day component is resolved by
+truncation considering "`MM-DD", "`02-31`" is truncated to "`02-28`", as
+2018 Feb has only 28 days. Results in "`2018-02-28`".
+
+
+[example]
+Incrementing "`2018-01-23`" with "`P2M2D`" is calculated as
+("`2018-01-23`" + "`P2D`") + "`P2M`".
+The next step becomes "`2018-01-25`" + "`P2M`" and results
+in "`2018-03-25`".
+
+
+[example]
+Incrementing "`2018-01-31`" with "`P2M2D`" is calculated as
+("`2018-01-31`" + "`P2D`") + "`P2M`".
+The next step gives "`2018-01-33`" + "`P2M`", then
+"`2018-02-02`" + "P2M`", and finally "`2018-04-02`".
+
+
+[example]
+Incrementing "`2018-01-29`" with "`P1M2D`" is calculated as
+("`2018-01-29`" + "`P2D`") + "`P1M`".
+The next step gives "`2018-01-31`" + "`P2M`",
+which results in "`2018-02-31`", and is resolved to "`2018-02-28`" via lower order truncation.
+
+
+[example]
+Incrementing "`2018-01-29`" with "`P2M4D`" is calculated as ("`2018-01-29`" + "`P4D`") + "`P2M`". The next step gives "`2018-01-33`" + "`P2M`", resulting in "`2018-02-02`" + "`P2M`" and finally "`2018-04-02`".
+
+
+[example]
+Incrementing "`2018-12-01`" with "`P2M2D`" is calculated as ("`2018-12-01`" + "`P2D`") + "`P2M`". Calculation gives "`2018-12-03`" + "`P2M`" and then "`2018-14-02`", which is finally resolved to be "`2019-02-02`" via carry over.
+
+
+[example]
+Incrementing "`2018-12-31`" with "`P2M`" results in "`2018-14-31`", which has to be resolved via carry over to "`2019-02-31`", and finally resolved via truncation to "`2019-02-28`".
+
+[[annexc-detailed-example]]
+[example]
+Incrementing "`2018-12-31`" with "`P5Y3M1D`" results in (("`2018-12-31`" + "`P1D`") + "`P3M`") + "`P5Y`". It is calculated to be ("`2018-12-32`" + "`P3M`") + "`P5Y "`, which is then resolved to ("`2019-01-01`" + "`P3M`") + "`P5Y`" via carry over, and it becomes "`2019-04-01`" + "`P5Y`" and finally "`2024-04-01`".
+
+
+
+=== Resolution of leap seconds
+
+There is no universal rule to calculate leap seconds in advance, since
+the decision to insert a leap second is driven by a number of dynamic
+factors and only known when announced by the BIPM.
+
+For example, it is unclear whether 2085 will or will not have a leap
+second until a closer date, when BIPM makes such an announcement.
+
+To resolve issues that relate to the leap second, in calculations prior
+to knowledge of the leap second, we assume that no leap second will be
+in place. Such that, "`59`" is always the last second of the year.
+
+
+[example]
+"`2018-12-31T23:59:59`" + PT1M => "`2018-12-31T23:60:59`" => "`2018-12-31T24:00:59`" => "`2018-12-32T00:00:59`" => "`2018-13-01T00:00:59`" => "`2019-01-01T00:00:59`" (applies identically with or without leap second)
+
+
+[example]
+(at a leap second) "`2018-12-31T23:59:60`" + PT1M => (resolve minutes unit first) "`2018-12-31T23:60:60`" => "`2018-12-31T24:00:60`" => "`2018-12-32T00:00:60`" => "`2018-13-01T00:00:60`" => "`2019-01-01T00:00:60`" => (resolve seconds unit) "`2019-01-01T00:00:59`"
+
+
+[example]
+(when a year has a leap second) "`2018-12-31T23:59:59`" + PT1S => "`2018-12-31T23:59:60"
+
+
+=== Handling duration with fractions
+
+It is not always clear what a duration with fractional numbers mean.
+For example, the expression "`P0.5M`" ("`half a month`") is ambiguous
+because the exact duration of a calendar month depends on its context
+and that the context for which "`P0.5M`" is anchored to is unclear.
+
+The cause of this uncertainty is due to the ambiguity of duration of a
+time scale component. Generally, the exact duration of a calendar month
+is context-dependent, but that of a calendar day is not. The strategy
+is to calculate the fractional duration after knowing the exact
+duration of the unit, such that, the exact duration for the duration
+unit in whole (e.g. "`P1M`") can be calculated given a context.
+
+The algorithm from <<annexc-algorithm>> can be used to first calculate
+the exact duration of the next whole duration of the fractional
+duration, and subsequently the fractional duration can be calculated.
+
+Let the functions:
+
+* unit(duration) be the value of a single unit used in the duration;
+
+* value(duration) be the fractional value used with the duration.
+
+* duration(date1, date2) is the function to calculate the duration between two dates or times.
+
+The calculation of a "`date + duration`" can be rephrased into:
+
+[source]
+----
+date + duration = duration(resolve(date, unit(duration))), date) × value(duration) + date
+----
+
+Given that "`resolve(date, unit(duration))`" can be calculated, this
+formula will always produce a value with consistency.
+
+[example]
+Given the increment of "`2018-01-23`" with "`P0.5M`", it can be rephrased as duration(resolve("`2018-01-23`", "`P1M`"), "`2018-01-23`") × 0.5 + "`2018-01-23`". It is reduced to duration( "`2018-02-23`", "`2018-01-23`") and then "`P31D`" × 0.5 + "`2018-01-23`", and hence "`P15.5D`" + "`2018-01-23`". Since "`P15.5D`" is an exact duration, "`P15.5D`" + "`2018-01-23`" is resolvable and gives us the final result as "2018-02-07T12:00:00`".
+

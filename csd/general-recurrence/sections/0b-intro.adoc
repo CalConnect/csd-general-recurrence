@@ -1,0 +1,22 @@
+[[introduction]]
+:sectnums!:
+== Introduction
+
+The iCalendar standard (<<RFC5545>>) has defined the de-facto standard
+for specifying recurring time intervals.
+
+However, its syntax is tightly bound to the syntax and assumptions
+of <<RFC5545>>, requiring a data model representation that assumes
+a hierarchy of properties, parameters and data types that are not
+necessarily provided in other date and time representations,
+such as the International Standard for date and time representation,
+<<ISO8601>>.
+
+<<RFC5545>> also relies on a number of indirect data inheritance
+rules that are not clearly specified and therefore not easily
+reproduced in other representations outside of iCalendar.
+
+This document describes a method to specify recurring time intervals
+with repeat rules in representation in line with those of the time
+scale components and date and time representations described in
+<<ISO8601>>.
