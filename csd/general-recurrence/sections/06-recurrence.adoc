@@ -45,11 +45,7 @@ repeating interval, one sub-interval is distinguished, called an
 [[eti]]
 ==== Eligible time intervals
 
-Within each eligible time interval, one or more events occur, as
-determined by [selection-rules], which are optional.
-
-If [selection-rules] is omitted, a single event occurs at the end
-of the eligible time interval.
+Within each eligible time interval is one or more occurrences, as determined by [selection-rules], which are optional. If `[selection-rules]` is omitted, there is a single occurrence at the end of the eligible time interval.
 
 
 `[eligible-time-intervals]` in the repeat rule above is one of the following:
@@ -77,7 +73,7 @@ is expressed.
 
 [example]
 If the value of [eligible-time-intervals] is `8Y`, then the time scale
-component is year, there are eight eligible intervals, each of length 1
+component is year, and each eligible interval is of length 1
 year.
 
 * Each eligible time interval begins x-1 units of the selected time
@@ -97,9 +93,10 @@ periods are the second year of each 2-year repeating interval.
 The expression `F8D` in the frequency part means that the eligible
 periods are the 8th day of each 8-day interval.
 
+
 ==== Selection part
 
-The selection designator ["`L`"] identifies a list of selection rules,
+The selection designator ["`L`"] precedes a list of selection rules,
 which specify conditions of matching one or more instants within one or
 more time intervals.
 
@@ -135,12 +132,8 @@ For issues dealing with compatibility with <<RFC5545>>, please refer to
 
 A complete representation of a recurring time interval with repeat
 rules, shall be in accordance with <<selection>> and <<recurrence-repeat-rule>>,
-combining any complete
-recurring time interval representation as defined in <<ISO8601-1,clause 5.4.3>> with
-the repeat rule.
-
-A recurring time interval is expressed according to the following
-representation:
+combining any time interval representation as defined in
+<<CC18011>> and in <<ISO8601-1,clause 5.4.3>>, with the repeat rule:
 
 [source]
 ----
@@ -157,82 +150,34 @@ Where,
 
 * [repeat-rule] is a repeat rule defined in <<recurrence-repeat-rule>>.
 
-==== Basic formats
 
-The basic format time interval is specified as [timeInterval] of one of
-these three representations described in <<ISO8601-1>>:
+[example]
+`R12/20150929T140000/20150929T153000/F2W`, interval in implied form, specified by start and end
 
-* [date]["`T`"][time]["`/`"][date]["`T`"][time]
+[example]
+`R12/20150929T140000/P1H30M0S/F2W`, interval in implied form, specified by start and duration
 
-* [date]["`T`"][time]["`/`"][duration]
-
-* [duration]["`/`"][date]["`T`"][time]
-
-The representation of a basic format recurring time interval is therefore:
-
-[source]
-----
-["`R`"][n]["`/`"][timeInterval]["`/`"][repeat-rule]
-----
+[example]
+`R12/P2H30M0S/20150929T153000/F2W`, interval in implied form, specified by duration and end
 
 
 [example]
-`R12/20150929T140000/20150929T153000/F2W` is of the first form
+`R12/2015‑09‑29T14:00:00/2015‑09‑29T15:30:00/F2W`, interval in extended form, specified by start and end
 
 [example]
-`R12/20150929T140000/P1H30M0S/F2W` is of the second form
+`R12/2015‑09‑29T14:00:00/P1H30M0S/F2W`, interval in extended form, specified by start and duration
 
 [example]
-`R12/P2H30M0S/20150929T153000/F2W` is of the third form
-
-
-==== Extended formats
-
-The extended format time interval is specified as [timeIntervalX] of
-one of these three representations described in <<ISO8601-1>>:
-
-* [dateI]["`T`"][timeI]["`/`"][dateI]["`T`"][timeI]
-* [dateI]["`T`"][timeI]["`/`"][duration-complete]
-* [duration-complete]["`/`"][dateI]["`T`"][timeI]
-
-The representation of a basic format recurring time interval is therefore:
-
-[source]
-----
-["`R`"][n]["`/`"][timeIntervalX]["`/`"][repeat-rule]
-----
-
+`R12/P1H30M0S/2015‑09‑29T15:30:00/F2W`, interval in extended form, specified by duration and end
 
 [example]
-`R12/2015‑09‑29T14:00:00/2015‑09‑29T15:30:00/F2W` is of the first form
+`R12/2015Y9M29DT14H0M0S/2015Y9M29DT15H30M00S/F2W`, interval in explicit form, specified by start and end
 
 [example]
-`R12/2015‑09‑29T14:00:00/P1H30M0S/F2W` is of the second form
+`R12/2015Y9M29DT14H0M0S/P1H30M0S/F2W`, interval in explicit form, specified by start and duration
 
 [example]
-`R12/P1H30M0S/2015‑09‑29T15:30:00/F2W` is of the third form
-
-
-==== Explicit formats
-
-The explicit format time interval is specified as [timeIntervalE]
-(see <<CC18011>>), the representation of a basic format recurring time
-interval is therefore:
-
-[source]
-----
-["`R`"][n]["`/`"][timeIntervalE]["`/`"][repeat-rule]
-----
-
-
-[example]
-`R12/2015Y9M29DT14H0M0S/2015Y9M29DT15H30M00S/F2W` is of the first form
-
-[example]
-`R12/2015Y9M29DT14H0M0S/P1H30M0S/F2W` is of the second form
-
-[example]
-`R12/P1H30M0S/2015Y9M29DT15H30M00S/F2W` is of the third form
+`R12/P1H30M0S/2015Y9M29DT15H30M00S/F2W`, interval in explicit form, specified by start and duration
 
 
 
@@ -258,17 +203,13 @@ In the expression `R/2018Y1M/PT10M/F1M`, the lowest order time scale unit specif
 
 A repeat rule specifies a set of occurrences where each occurrence is a time interval.
 
-The resulting occurrences of a repeat rule are calculated by the
-following steps:
+The occurrences resulting from a repeat rule are calculated as follows:
 
-* enumerate all eligible time intervals;
+* determine the eligible time intervals;
 
 * apply all selection rules to the eligible time intervals; and
 
-* obtain the overlapping instants specified by both the eligible time
-intervals and the selection rules.
+* obtain the resulting occurrences.
 
-The resulting overlapping instants are the occurrences specified by
-evaluating the repeat rule.
-
+An example evaluation is provided in <<annexa-example>>.
 
