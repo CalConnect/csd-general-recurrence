@@ -9,6 +9,11 @@ the time scale components and date and time representations described in
 <<ISO8601>>, while maintaining compatibility with the recurrence
 rule syntax specified as "RECUR" rules in <<RFC5545>>.
 
-The representations described in this document utilizes numbers,
-alphabets and symbols defined in <<ISOIEC646>>. These representations
-are meant to be both human recognizable and machine readable.
+This document only supports date elements from the Gregorian calendar and
+times from the 24-hour clock.
+
+Date and time format representations described in this document
+utilizes numbers, alphabets and symbols defined in <<ISOIEC646>>.
+These representations are meant to be both human recognizable and
+machine readable. Character encoding of the representations is
+not covered in this document.
