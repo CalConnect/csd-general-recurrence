@@ -199,7 +199,10 @@ the instance designator, represented by the character "I", indicates that a spec
 the frequency designator, represented by the character "F", preceding the component which represents the frequency part of a repeating rule
 
 "`L`"::
-the selection designator, represented by the character "L", preceding the component which represents the selection part of a repeating rule
+the selection prefix designator, represented by the character "`L`", preceding the component which represents the selection part of a repeating rule until encountering the corresponding suffix designator.
+
+"`N`"::
+the selection suffix designator, represented by the character "`N`", following the component which represents the selection part of a repeating rule from the corresponding prefix designator.
 
 "`_x_`"::
 the representation of any character "`_x_`" as according to the textual representation of "`_x_`" in the <<ISOIEC646>> repertoire

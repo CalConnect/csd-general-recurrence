@@ -33,12 +33,18 @@ specification of a repeating cycle used together with selection rules.
 
 [source]
 ----
-repeat-rule = ["`F`"][eligible-time-intervals]["`L`"][selection-rules]
+repeat-rule = ["`F`"][eligible-time-intervals][selection]
 ----
 
-The frequency designator ["`F`"] precedes the identification of a series
-of repeating time intervals ("`repeating intervals`"). Within each
-repeating interval, one sub-interval is distinguished, called an
+Where,
+
+* the frequency designator ["`F`"] precedes the identification of a series
+of repeating time intervals ("`repeating intervals`");
+
+* [selection] is specified in <<selection>>.
+
+
+Within each repeating interval, one sub-interval is distinguished, called an
 "`eligible time interval`".
 
 

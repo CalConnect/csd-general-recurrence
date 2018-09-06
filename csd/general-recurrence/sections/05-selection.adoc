@@ -15,21 +15,35 @@ upon the "`explicit`" syntax of time scale components specified in
 
 [source]
 ----
-selection = [selection-rule-1]...[selection-rule-n]
+selection = ["`L`"][selection-component-1]...[selection-component-n]["`N`"]
 ----
+
+Where,
+
+* ["`L`"] is the selection prefix designator;
+
+* ["`N`"] is the selection suffix designator;
+
+* between the selection prefix and suffix designator, there can be multiple
+[selection-component-n] selection components, which are defined in this
+clause.
+
 
 Generally, selection rules should be placed in the order where the
 higher-order time scale components are placed on the left, and the
 lower-order ones placed on the right.
 
-While it is possible to translate the selection rules specified in this
+NOTE: While it is possible to translate the selection rules specified in this
 document to the "`RECUR`" syntax specified in <<RFC5545>> in most cases;
 exceptions and limitations are noted within context of the rules
 specified below.
 
 
+[[selection-rules]]
+=== Selection rules
+
 [[selection-months]]
-=== Selection of calendar months
+==== Selection of calendar months
 
 This selection rule specifies a set of calendar months of the calendar year.
 
@@ -48,7 +62,7 @@ Valid values are [1] to [12], corresponding to the ordinal number of the calenda
 
 
 [[selection-weeks]]
-=== Selection of calendar weeks
+==== Selection of calendar weeks
 
 This selection rule specifies a set of ordinals specifying calendar weeks of the calendar year.
 
@@ -81,7 +95,7 @@ in <<ISO8601-1>>.
 
 
 [[selection-month-days]]
-=== Selection of calendar month days
+==== Selection of calendar month days
 
 This selection rule specifies a set of days of the calendar month.
 
@@ -105,7 +119,7 @@ specified.
 
 
 [[selection-week-days]]
-=== Selection of week days
+==== Selection of week days
 This selection rule specifies a set of days of the week.
 
 Representation:
@@ -151,7 +165,7 @@ NOTE: The values of [366] and [-366] are used to match a calendar leap year
 
 
 [[selection-hours]]
-=== Selection of hours
+==== Selection of hours
 
 This selection rule specifies a set of hours of the calendar day.
 
@@ -166,7 +180,7 @@ Valid values are [0] to [23].
 
 
 [[selection-minutes]]
-=== Selection of minutes
+==== Selection of minutes
 
 This selection rule specifies a set of minutes within an hour.
 
@@ -181,7 +195,7 @@ Valid values are [0] to [59].
 
 
 [[selection-seconds]]
-=== Selection of seconds
+==== Selection of seconds
 
 This selection rule specifies a set of seconds within a minute.
 
@@ -202,7 +216,7 @@ does not support a value of [60].
 
 
 [[selection-position]]
-=== Selection of position
+==== Selection of position
 
 The positional part is an optional part in a selection rule.
 
@@ -231,9 +245,7 @@ Where,
 position = [!]["`-`"][i]
 ----
 
-Each [position] value can include a positive (+n) or negative (-n)
-integer. Valid values for [position] are therefore unbounded,
-except for the integer value [0], which is not accepted.
+Each [position] value can include a positive or negative integer.
 
 Position numbers within a set of occurrences is considered to
 start with [1] (the first occurence of the set of occurrences),
@@ -262,3 +274,35 @@ counted from the last week of the calendar year.
 repeating rule `F1ML{1,2,3,4,5}K-1I` (using notation specified in
 <<integer-ops>>)
 
+
+
+Valid values for [position] are bound to the time scale components
+in the context. The integer value [0] is not allowed.
+
+[example]
+In a monthly context, the expression `L{1,2,3}D100I` is invalid
+because in a single calendar month, days that can match the calendar
+day of month numbers 1, 2 and 3 are only 3, therefore the position
+of 100 cannot be selected.
+
+
+
+=== Representation of date and time
+
+The [selection] time scale component can be applied
+to date and time representations as replacements for any time scale
+components as long as the resulting expression is a valid one.
+
+[example]
+`2018Y3ML1KI` is a valid date expression that refers to the date
+year 2018, first Monday of March.
+
+[example]
+`2018Y9MTLT8H20MNI3` is a valid date and time expression that
+refers to the date year 2018, September, the third instance of 08:20
+(which is September 3rd, 08:20).
+
+[example]
+`{2018,2019,2020}YL2M29DN1I` is a valid date expression that
+selects the February 29 leap day. It matches the first instance of
+the date February 29th in the years 2018 to 2020.
