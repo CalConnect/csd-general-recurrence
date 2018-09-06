@@ -118,55 +118,13 @@ daykSR = [daykE]
 Valid values are [1] to [7].
 
 [example]
-Within a monthly rule, "`1K`" represents all Mondays within the calendar
+Within a monthly context, "`1K`" represents all Mondays within the calendar
 month.
 
 
-[[selection-weeks-position]]
-=== Selection of calendar week days with position
-
-This selection rule indicates the n-th occurrence of a specific week
-day within a yearly (<<eligible-time-intervals-year>>) or monthly
-(<<eligible-time-intervals-month>>) intervals.
-
-Representation:
-
-[source]
-----
-daykR = [!]["`-`"][i]["`J`"][daykE]
-----
-
-This representation should be used only with repeating rules with
-intervals of a higher order time scale unit than "`week`", such as
-"`yearly`" or "`monthly`". Valid values of [i] range from [1] to [53] and
-[-53] to [-1].
-
-The numeric value [i] in this rule corresponds to an offset within a
-given scope:
-
-* when the frequency is yearly, and when there is a rule for selection
-of calendar month, then the offset corresponds to an offset within the
-calendar month specified in the selection of month rule;
-
-* when there is a rule for selection of week or for selection of
-calendar month, then the offset corresponds to an offset within the
-calendar year.
-
-
-[example]
-When specified in a monthly context, `+1j1K` represents the first
-Monday within the calendar month, whereas `{1,-2}j1K` represents the
-first and the second last Monday of the calendar month.
-
-
-[example]
-When specified in a yearly context, `+52j1K` represents the 52th Monday
-within the calendar year, whereas `-21j1K` represents the 21st Monday
-counted from the last week of the calendar year.
-
 
 [[selection-ordinal-days]]
-=== Selection of ordinal days in calendar year
+==== Selection of ordinal days in calendar year
 
 This selection rule specifies a set of ordinal days of the calendar
 year, and should only be specified when the interval of the repeat rule
@@ -283,8 +241,21 @@ and [-1] represents the first occurence when counted backwards.
 
 
 [example]
-In a repeating rule with a weekly frequency, the interval would be one
-week.
+In a repeating rule with a weekly frequency, the eligible interval
+for selection is one week.
+
+
+
+[example]
+When specified in a monthly context, `L1K1I` represents the first
+Monday within the calendar month, whereas `L1K{1,-2}I` represents the
+first and the second last Monday of the calendar month.
+
+[example]
+When specified in a yearly context, `L1K52I` represents the 52th Monday
+within the calendar year, whereas `L1K-21I` represents the 21st Monday
+counted from the last week of the calendar year.
+
 
 [example]
 "`The last work day of calendar months`" can be represented by the

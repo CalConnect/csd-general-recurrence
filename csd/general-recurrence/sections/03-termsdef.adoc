@@ -195,9 +195,6 @@ the UTC designator, represented by the character "`Z`", added to the end of a ti
 "`I`"::
 the instance designator, represented by the character "I", indicates that a specific instance is to be selected within the time scale component
 
-"`J`"::
-the ordinal position designator, represented by the character "j", indicates that a specific ordinal position is to be selected from the existing value of the time scale component
-
 "`F`"::
 the frequency designator, represented by the character "F", preceding the component which represents the frequency part of a repeating rule
 
