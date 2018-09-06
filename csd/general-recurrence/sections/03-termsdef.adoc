@@ -207,6 +207,11 @@ the selection suffix designator, represented by the character "`N`", following t
 "`_x_`"::
 the representation of any character "`_x_`" as according to the textual representation of "`_x_`" in the <<ISOIEC646>> repertoire
 
+NOTE: The choice of "`L`" and "`N`" for the selection designators is due to
+the fact that the word "selection" contains both "`L`" and "`N`" in the
+correct order.
+
+
 
 
 [[symbols-separator]]
