@@ -185,7 +185,7 @@ The next step gives "`2018-01-33`" + "`P2M`", then
 [example]
 Incrementing "`2018-01-29`" with "`P1M2D`" is calculated as
 ("`2018-01-29`" + "`P2D`") + "`P1M`".
-The next step gives "`2018-01-31`" + "`P2M`",
+The next step gives "`2018-01-31`" + "`P1M`",
 which results in "`2018-02-31`", and is resolved to "`2018-02-28`" via lower order truncation.
 
 
