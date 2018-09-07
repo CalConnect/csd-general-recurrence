@@ -12,7 +12,7 @@ that users should be aware of.
 [[annexa-example]]
 === Sample evaluation of a recurring time interval with repeat rules
 
-`R/20150104T083000/PT15M00S/F2YL1M1KT{8,9}H30M` expresses a recurring
+`R/20150104T083000/PT15M00S/F2YL1M1KT{8,9}H30MN` expresses a recurring
 interval (number of occurrences is unspecified) whose first occurrence
 is January 4, 2015, 8:30-8:45 AM, and subsequent occurrences, all of
 the same duration (15 minutes), are determined by the repeat cycle for
@@ -65,7 +65,7 @@ year of every two year period beginning year 2014, for every Sunday in January a
 and 9:30:00 AM, create a 15 minutes occurence.`"
 
 [[figure-basic-recurrences]]
-.Resulting occurrences of the rule F3YL{2,4,6,8,10}M1D
+.Resulting occurrences of the rule F3YL{2,4,6,8,10}M1DN
 image::images/basic-concepts.png[]
 
 

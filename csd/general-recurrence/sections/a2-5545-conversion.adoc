@@ -101,4 +101,4 @@ Tuesday is considered to be indirectly inferred from the initial start
 date since it is not explicitly specified. To achieve the same effect
 using mechanisms of this document, the `BYDAY` selection rule in
 <<RFC5545>> must be explicitly set as a selection rule, such as in
-`L1K`.
+`L1KN`.

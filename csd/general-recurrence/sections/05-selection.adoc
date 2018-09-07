@@ -259,19 +259,19 @@ for selection is one week.
 
 
 [example]
-When specified in a monthly context, `L1K1I` represents the first
-Monday within the calendar month, whereas `L1K{1,-2}I` represents the
+When specified in a monthly context, `L1K1IN` represents the first
+Monday within the calendar month, whereas `L1K{1,-2}IN` represents the
 first and the second last Monday of the calendar month.
 
 [example]
-When specified in a yearly context, `L1K52I` represents the 52th Monday
-within the calendar year, whereas `L1K-21I` represents the 21st Monday
+When specified in a yearly context, `L1K52IN` represents the 52th Monday
+within the calendar year, whereas `L1K-21IN` represents the 21st Monday
 counted from the last week of the calendar year.
 
 
 [example]
 "`The last work day of calendar months`" can be represented by the
-repeating rule `F1ML{1,2,3,4,5}K-1I` (using notation specified in
+repeating rule `F1ML{1,2,3,4,5}K-1IN` (using notation specified in
 <<integer-ops>>)
 
 
@@ -280,7 +280,7 @@ Valid values for [position] are bound to the time scale components
 in the context. The integer value [0] is not allowed.
 
 [example]
-In a monthly context, the expression `L{1,2,3}D100I` is invalid
+In a monthly context, the expression `L{1,2,3}D100IN` is invalid
 because in a single calendar month, days that can match the calendar
 day of month numbers 1, 2 and 3 are only 3, therefore the position
 of 100 cannot be selected.
@@ -294,11 +294,11 @@ to date and time representations as replacements for any time scale
 components as long as the resulting expression is a valid one.
 
 [example]
-`2018Y3ML1KI` is a valid date expression that refers to the date
+`2018Y3ML1KN1I` is a valid date expression that refers to the date
 year 2018, first Monday of March.
 
 [example]
-`2018Y9MTLT8H20MNI3` is a valid date and time expression that
+`2018Y9MTLT8H20MN3I` is a valid date and time expression that
 refers to the date year 2018, September, the third instance of 08:20
 (which is September 3rd, 08:20).
 
