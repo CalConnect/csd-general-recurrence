@@ -106,6 +106,7 @@ The selection designator ["`L`"] precedes a list of selection rules,
 which specify conditions of matching one or more instants within one or
 more time intervals.
 
+
 [source]
 ----
 selection-rules = ["`L`"][selection-rule-1]...[selection-rule-n]
@@ -115,15 +116,20 @@ Representations for selection rules are specified in <<selection>>.
 
 In a repeating rule, if the selection part is present but does not
 specify selection rules for all time scale components provided in the
-"`time interval start`", all lower order values from "`time interval
-start`" value should be used to fill in the missing component values in
-the selection part.
+"`time interval start`", all lower order values from
+"`time interval start`" value should be used to fill in the missing
+component values in the selection part.
 
 [example]
-When the selection part `L3DT` is used with the time interval start
-value `2018-08-01T01:02:03`, the selection part is treated as `L3D`
-`F1DL1M` reduces the number of repeat instances from all days (when the
-selection rule was not specified) to all days in January.
+`F1YL1MN` limits the number of repeat instances from an entire year
+(when the selection rule was not specified) to January.
+
+////
+TODO: Don't remember why this exists...
+[example]
+When the selection part `L3DTN` is used with the time interval start
+value `2018-08-01T01:02:03`, the selection part is treated as `L3DN`.
+////
 
 For a detailed explanation of interactions between eligible time
 intervals and the selection part, please refer to <<annexa>>.
