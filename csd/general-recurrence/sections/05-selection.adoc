@@ -15,7 +15,7 @@ upon the "`explicit`" syntax of time scale components specified in
 
 [source]
 ----
-selection = ["`L`"][selection-component-1]...[selection-component-n]["`N`"]
+selection = ["`L`"][selection-rule-1]...[selection-rule-n]["`N`"]
 ----
 
 Where,
@@ -25,25 +25,50 @@ Where,
 * ["`N`"] is the selection suffix designator;
 
 * between the selection prefix and suffix designator, there can be multiple
-[selection-component-n] selection components, which are defined in this
+[selection-rule-n] selection rules, which are defined in this
 clause.
 
 
-Generally, selection rules should be placed in the order where the
+A selection expression describes either:
+
+* a set of time scale components, which may be continuous or disjoint on a time scale;
+
+* a single instance of a time scale component, when the instance component (`["I"]`) is invoked.
+
+
+[example]
+`L{1,3,5}KN`, "`Mondays, Wednesdays and Fridays`", describes a set of
+disjoint calendar days (all three calendar days are not adjacent to each other).
+
+[example]
+`L{1,2}MN`, "`Januarys and Februarys`", describes a set of
+calendar months that are continuous on one side (January is next to February),
+but disjoint on the other, when placed on the time scale (March to December are
+excluded from this expression).
+
+[example]
+`L1K1IN`, "`the first Monday`", describes a single calendar day.
+
+
+// TODO: is this really necessary?
+Selection rules shall be placed in the order where the
 higher-order time scale components are placed on the left, and the
 lower-order ones placed on the right.
 
-NOTE: While it is possible to translate the selection rules specified in this
-document to the "`RECUR`" syntax specified in <<RFC5545>> in most cases;
-exceptions and limitations are noted within context of the rules
-specified below.
+
+NOTE:
+Selection rules specified in this clause are a superset to those of the
+"`RECUR`" syntax specified in <<RFC5545>>;
+while it is possible to translate certain selection rules specified in this
+document to that syntax, exceptions and limitations are noted within context
+of the rules specified below.
 
 
 [[selection-rules]]
 === Selection rules
 
 [[selection-months]]
-==== Selection of calendar months
+==== Selection of calendar month of year
 
 This selection rule specifies a set of calendar months of the calendar year.
 
@@ -59,12 +84,15 @@ Valid values are [1] to [12], corresponding to the ordinal number of the calenda
 [example]
 `3M` represents the third calendar month of the calendar year, i.e. March.
 
+[example]
+'12M' represents the twelfth calendar month of year, i.e. December.
 
 
 [[selection-weeks]]
-==== Selection of calendar weeks
+==== Selection of calendar week of year
 
-This selection rule specifies a set of ordinals specifying calendar weeks of the calendar year.
+This selection rule specifies a set of ordinals specifying calendar weeks of the calendar year. Since the calendar week of year component has a changeable bound, negative values of week are allowed for specifying the week of year number in reverse.
+
 
 Representation:
 
@@ -77,12 +105,13 @@ Valid values are [1] to [53] and [-53] to [-1]. This corresponds to the
 number of calendar weeks of a year according to week numbering as
 defined in <<ISO8601-1>>.
 
-This rule should only be specified when the frequency of the repeat
-rule is set to yearly (<<eligible-time-intervals-year>>).
 
 [example]
-The third week of the calendar year is represented by the expression
-`3W` in this part.
+The tenth week of the calendar year is represented by the expression ‘10W’.
+
+[example]
+The second last week of the calendar year is represented by the expression ‘-2W’.
+
 
 NOTE: Week 53 can only occur when Thursday is January 1 or if it is a
 leap calendar year and Wednesday is January 1, in accordance with
@@ -93,11 +122,12 @@ NOTE: Refer to <<CC18011,clause 6.7>> for negative values of weeks.
 NOTE: Definitions of the calendar week and the week number are provided
 in <<ISO8601-1>>.
 
+NOTE: <<RFC5545>> specifies that this rule should only be present when the frequency of the repeat rule is set to yearly (<<eligible-time-intervals-year>>).
 
 [[selection-month-days]]
-==== Selection of calendar month days
+==== Selection of calendar day of month
 
-This selection rule specifies a set of days of the calendar month.
+This selection rule specifies a set of days of the calendar month. Since the calendar day of month has a changeable bound, negative values of calendar day of month are allowed for specifying the day of month ordinal number in reverse.
 
 Representation:
 
@@ -110,16 +140,19 @@ Valid values are [1] to [31] and [-31] to [-1]. This corresponds to the
 maximum number of calendar days of a calendar month.
 
 [example]
+‘18D’ represents the eighteenth calendar day of the calendar month.
+
+[example]
 `-10D` represents the tenth to the last calendar day of the calendar
 month.
 
-When the frequency part is set to weekly
-(<<eligible-time-intervals-week>>), this selection rule must not be
-specified.
+NOTE: <<RFC5545>> does not allow this selection rule when the frequency
+part is set to weekly (<<eligible-time-intervals-week>>).
 
 
 [[selection-week-days]]
 ==== Selection of week days
+
 This selection rule specifies a set of days of the week.
 
 Representation:
@@ -146,6 +179,8 @@ is set to yearly (<<eligible-time-intervals-year>>), monthly
 (<<eligible-time-intervals-month>>) or daily
 (<<eligible-time-intervals-day>>).
 
+Since the number of days in a calendar year has a changeable bound, negative values of calendar day of year are allowed for specifying the day of year ordinal number in reverse.
+
 Representation:
 
 [source]
@@ -158,10 +193,10 @@ Valid values are [1] to [366] and [–366] to [-1].
 NOTE: The values of [366] and [-366] are used to match a calendar leap year
 
 [example]
-`-1` represents the last day of the calendar year (December 31st)
+`-1O` represents the last day of the calendar year (December 31st).
 
 [example]
-`-306` represents the 306th to the last day of the calendar year (March 1st)
+`-306O` represents the 306th to the last day of the calendar year (March 1st of a normal year).
 
 
 [[selection-hours]]
@@ -178,6 +213,12 @@ hourSR = [hourE]
 
 Valid values are [0] to [23].
 
+[example]
+‘23H’ represents the 23rd   (last) hour of day.
+
+[example]
+‘0H’ represents the beginning hour of day.
+
 
 [[selection-minutes]]
 ==== Selection of minutes
@@ -192,6 +233,12 @@ minSR = [minE]
 ----
 
 Valid values are [0] to [59].
+
+[example]
+‘59M’ represents the 59th minute of an hour.
+
+[example]
+‘3M’ represents the third minute of an hour.
 
 
 [[selection-seconds]]
@@ -208,28 +255,27 @@ secSR = [secE]
 
 Valid values are [0] to [60].
 
+[example]
+‘30S’ represents the 30th second of the clock hour.
+
+[example]
+‘60S’ represents a leap second.
+
+
 NOTE: The value of [60] is used to match a leap second of the calendar year.
 
 NOTE: The value of [60] should be changed to [59] when converting such
-rule that to the <<RFC5545>> `BYSECOND` since the `BYSECOND` syntax
-does not support a value of [60].
+rule that to the <<RFC5545>> `BYSECOND` since it does not support a
+value of [60].
 
 
 [[selection-position]]
 ==== Selection of position
 
-The positional part is an optional part in a selection rule.
-
-It specifies a set of values that corresponds to the n-th occurrence
-within selected occurrences.
-Particularly, it operates on a set of recurrence instances in one
-interval of the repeating rule.
-
-A set of recurrence instances starts at the beginning of the interval
-defined by the frequency part.
-
-The selection of position should only be used when there is at least
-one selection rule is specified.
+The position rule, if present, should be applied last, and only when
+there is at least one selection rule preceding it. It selects a set of
+occurrence that is a subset of the occurrences already selected (by the
+selection rules preceding it).
 
 Representation:
 
@@ -240,23 +286,19 @@ positionSR = [position]["`I`"]
 
 Where,
 
-[source]
-----
-position = [!]["`-`"][i]
-----
+* [position] is a positive or negative integer, [!]["`-`"][i].
 
-Each [position] value can include a positive or negative integer.
+When used in conjunction with a set of occurrences, [position]
+identifies the i-th occurrence amongst the set of occurrences.
 
-Position numbers within a set of occurrences is considered to
-start with [1] (the first occurence of the set of occurrences),
-and [-1] represents the first occurence when counted backwards.
-
+Specifically, position numbers within a set of occurrences is considered to
+start with [1] (the first occurrence of the set of occurrences),
+and [-1] represents the first occurrence when counted backwards.
 
 [example]
-In a repeating rule with a weekly frequency, the eligible interval
-for selection is one week.
-
-
+"`The last work day of calendar months`" can be represented by the
+repeating rule `L{1,2,3,4,5}K-1IN` (using notation specified in
+<<integer-ops>>)
 
 [example]
 When specified in a monthly context, `L1K1IN` represents the first
@@ -269,12 +311,6 @@ within the calendar year, whereas `L1K-21IN` represents the 21st Monday
 counted from the last week of the calendar year.
 
 
-[example]
-"`The last work day of calendar months`" can be represented by the
-repeating rule `F1ML{1,2,3,4,5}K-1IN` (using notation specified in
-<<integer-ops>>)
-
-
 
 Valid values for [position] are bound to the time scale components
 in the context. The integer value [0] is not allowed.
@@ -285,13 +321,50 @@ because in a single calendar month, days that can match the calendar
 day of month numbers 1, 2 and 3 are only 3, therefore the position
 of 100 cannot be selected.
 
+[example]
+In a monthly context, the expression ‘L2K2IN9D’ refers to the
+ninth day following the second Tuesday.
 
 
-=== Representation of date and time
+=== Selection with duration
 
-The [selection] time scale component can be applied
-to date and time representations as replacements for any time scale
-components as long as the resulting expression is a valid one.
+This selection rule allows extending the previous selection rule
+with a duration.
+
+Representation:
+
+[source]
+----
+durSR = [selection-component]["/"][duration]
+----
+
+Where,
+
+* [selection-component] are selection components defined in this
+  clause;
+
+* [duration] is a valid duration.
+
+[example]
+'LL1K{1,3}IN/P5DN' expresses the selection of a set of time
+intervals starting on the first and third Mondays, each of
+a duration of 5-days long.
+
+[example]
+'LLL2K2IN/P9DN4K2IN' expresses the selection of “the second Thursday following the second Tuesday”, through selecting the “9-day blocks starting at the second Tuesday, then select the second Thursday in the 9-day blocks”.
+
+NOTE: [selection-component]["/"][duration] is by itself a valid
+time interval.
+
+
+[[selection-representations]]
+=== Application within representations
+
+==== General
+
+Selection rules may be applied to date and time representations as
+replacements for any time scale components as long as the resulting
+expression is valid.
 
 [example]
 `2018Y3ML1KN1I` is a valid date expression that refers to the date
@@ -303,6 +376,58 @@ refers to the date year 2018, September, the third instance of 08:20
 (which is September 3rd, 08:20).
 
 [example]
-`{2018,2019,2020}YL2M29DN1I` is a valid date expression that
+`{2018,2019,2020,2021,2022}YL2M29DN1I` is a valid date expression that
 selects the February 29 leap day. It matches the first instance of
-the date February 29th in the years 2018 to 2020.
+the date February 29th in the years 2018 to 2022.
+
+[example]
+‘L5M7K2IN’ represents “the second Sunday of May”. When placed in a yearly context, the date falls on the International Mother’s Day.
+
+[example]
+‘L11M4K4INT17HZ-05H’ represents the date “8:00:00 p.m. of the fourth Thursday in November, in UTC-05:00”. When placed in a yearly context, it represents 8:00:00 p.m. falling on the U.S. Thanksgiving Day.
+
+[example]
+‘L4M{19,20,21,22,23,24,25,26}D4K1IN’ represents the first Thursday after April 18th. When placed in a yearly context, the date falls on the First Day of Summer (sumardagurinn fyrsti) in Iceland.
+
+
+==== Context set by selection
+
+A selection expression can be used to describe a single date or a set of time intervals.
+In a date and time representation, time scale components can be
+placed after a selection to point within selected results.
+
+When a selection expression describes a single date, the subsequent components apply within
+the date.
+
+[example]
+'2018YL1K1IN' is an expression for a specific calendar day. An
+expression with time scale components immediately after, such as '2018YL1K1INT10H0M0S',
+represents a specific date and time.
+
+
+When a selection expression describes a set of time intervals,
+the subsequent components apply to all elements of the set.
+
+[example]
+'2018YL{1,2,5}KN' is an expression for a time interval set. An
+expression with time scale components immediately after,
+such as '2018YL{1,2,5}KNT10H0M0S', describe a time interval set
+'{ 2018Y1M1DT10H0M0S, 2018Y1M2DT10H0M0S, 2018Y1M5DT10H0M0S,
+2018Y1M8DT10H0M0S, 2018Y1M9DT10H0M0S, 2018Y1M10DT10H0M0S ... }'
+
+
+==== Within time intervals
+
+A selection expression can be used to describe a time interval start or end.
+
+[example]
+'2018Y9ML1K1IN/P5D', with the expression contain selection describing a single date,
+represents the time interval "first Monday in September to 5 days later".
+
+
+[example]
+'2018Y9ML{1,3}K1IN/P5D', with the expression contain selection describing a time interval set,
+represents the "first and third Monday in September, to 5 days later". The
+expression is identical to the set expression '{ 2018Y9ML1K1IN/P5D, 2018Y9ML3K1IN/P5D }'.
+
+
