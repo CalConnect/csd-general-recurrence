@@ -3,11 +3,14 @@
 [[scope]]
 == Scope
 
-The purpose of this document is to provide a standard representation
-of recurring time intervals with repeat rules in line with those of
-the time scale components and date and time representations described in
-<<ISO8601>>, while maintaining compatibility with the recurrence
-rule syntax specified as "RECUR" rules in <<RFC5545>>.
+The purpose of this document is to provide a generalized representation
+of selection rules and recurring time intervals with repeat rules
+in line with those of the time scale components and date and time
+representations described in <<ISO8601-1>>.
+
+Representations in this document describe a superset of recurrence
+rules to "RECUR" rules in <<RFC5545>>, but aims to maintain
+compatibility with it inasmuch possible.
 
 This document only supports date elements from the Gregorian calendar and
 times from the 24-hour clock.

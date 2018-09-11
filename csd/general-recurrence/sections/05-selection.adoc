@@ -15,7 +15,7 @@ upon the "`explicit`" syntax of time scale components specified in
 
 [source]
 ----
-selection = ["`L`"][selection-rule-1]...[selection-rule-n]["`N`"]
+selection = ["L"][selection-rule-1]...[selection-rule-n]["N"]
 ----
 
 Where,
@@ -51,9 +51,11 @@ excluded from this expression).
 
 
 // TODO: is this really necessary?
+////
 Selection rules shall be placed in the order where the
 higher-order time scale components are placed on the left, and the
 lower-order ones placed on the right.
+////
 
 
 NOTE:
@@ -85,7 +87,7 @@ Valid values are [1] to [12], corresponding to the ordinal number of the calenda
 `3M` represents the third calendar month of the calendar year, i.e. March.
 
 [example]
-'12M' represents the twelfth calendar month of year, i.e. December.
+`12M` represents the twelfth calendar month of year, i.e. December.
 
 
 [[selection-weeks]]
@@ -140,7 +142,7 @@ Valid values are [1] to [31] and [-31] to [-1]. This corresponds to the
 maximum number of calendar days of a calendar month.
 
 [example]
-‘18D’ represents the eighteenth calendar day of the calendar month.
+`18D` represents the eighteenth calendar day of the calendar month.
 
 [example]
 `-10D` represents the tenth to the last calendar day of the calendar
@@ -168,6 +170,8 @@ Valid values are [1] to [7].
 Within a monthly context, "`1K`" represents all Mondays within the calendar
 month.
 
+[example]
+In a yearly context, `5K` represents all Fridays in the calendar year.
 
 
 [[selection-ordinal-days]]
@@ -214,7 +218,7 @@ hourSR = [hourE]
 Valid values are [0] to [23].
 
 [example]
-‘23H’ represents the 23rd   (last) hour of day.
+‘23H’ represents the 23rd (last) hour of day.
 
 [example]
 ‘0H’ represents the beginning hour of day.
@@ -235,10 +239,10 @@ minSR = [minE]
 Valid values are [0] to [59].
 
 [example]
-‘59M’ represents the 59th minute of an hour.
+`59M` represents the 59th minute of an hour.
 
 [example]
-‘3M’ represents the third minute of an hour.
+`3M` represents the third minute of an hour.
 
 
 [[selection-seconds]]
@@ -256,10 +260,10 @@ secSR = [secE]
 Valid values are [0] to [60].
 
 [example]
-‘30S’ represents the 30th second of the clock hour.
+`30S` represents the 30th second of the clock hour.
 
 [example]
-‘60S’ represents a leap second.
+`60S` represents a leap second.
 
 
 NOTE: The value of [60] is used to match a leap second of the calendar year.
@@ -286,7 +290,7 @@ positionSR = [position]["`I`"]
 
 Where,
 
-* [position] is a positive or negative integer, [!]["`-`"][i].
+* [position] is a positive or negative integer, `[!]["-"][i]`.
 
 When used in conjunction with a set of occurrences, [position]
 identifies the i-th occurrence amongst the set of occurrences.
@@ -301,14 +305,10 @@ repeating rule `L{1,2,3,4,5}K-1IN` (using notation specified in
 <<integer-ops>>)
 
 [example]
-When specified in a monthly context, `L1K1IN` represents the first
-Monday within the calendar month, whereas `L1K{1,-2}IN` represents the
-first and the second last Monday of the calendar month.
+"`The first Monday of the calendar year`" can be represented as the selection rule `L{1..7}O1K1IN`. `{1..7}O` represents the first seven days of the calendar year, `1K` represents Monday, `1I` represents the first instance.
 
 [example]
-When specified in a yearly context, `L1K52IN` represents the 52th Monday
-within the calendar year, whereas `L1K-21IN` represents the 21st Monday
-counted from the last week of the calendar year.
+"`The second Monday of the calendar year`" can be represented as the selection rule `L{1..14}O1K2IN`
 
 
 
@@ -362,9 +362,8 @@ time interval.
 
 ==== General
 
-Selection rules may be applied to date and time representations as
-replacements for any time scale components as long as the resulting
-expression is valid.
+Selection rules may be used with any date and time representation in explicit form. This representation is especially useful for describing movable days.
+
 
 [example]
 `2018Y3ML1KN1I` is a valid date expression that refers to the date
