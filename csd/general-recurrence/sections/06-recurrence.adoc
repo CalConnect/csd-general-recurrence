@@ -69,34 +69,28 @@ Within each eligible time interval is one or more occurrences, as determined by 
 * The duration of each repeating interval is the value of
 [eligible-time-intervals].
 +
-====
 [example]
 If the value of [eligible-time-intervals] is `8Y`, the length of each
 repeating time interval is 8 years.
-====
 
 
 * The duration of each eligible time interval is one-unit of the chosen
 time scale component in which the duration of [eligible-time-intervals]
 is expressed.
 +
-====
 [example]
 If the value of [eligible-time-intervals] is `8Y`, then the time scale
 component is year, and each eligible interval is of length 1
 year.
-====
 
 
 * Each eligible time interval begins x-1 units of the selected time
 scale component following the beginning of its repeating interval,
 where x is the coefficient of the unit.
 +
-====
 [example]
 If the value of [eligible-time-intervals] is `8Y`, the eligible time
 interval is the 7th year within the 8-year repeating interval.
-====
 
 
 These properties together determine an exact set of eligible time intervals.
