@@ -202,13 +202,13 @@ Evaluation compatibility with <<RFC5545>> is discussed in <<annexb>>.
 
 
 [example]
-The expression ‘R/2018-08-08/P1D/F1YL{3,8}M8DN’, means “for every year, select the calendar months 3 (March) and 8 (August), calendar day 8, for an occurrence of 1 day duration”. The resulting occurrences are therefore { ‘2018-08-08/2018-08-09’, ‘2019-03-08/2019-03-09’, ‘2019-08-08/2019-08-09’, … }.
+The expression '`R/2018-08-08/P1D/F1YL{3,8}M8DN`', means "`for every year, select the calendar months 3 (March) and 8 (August), calendar day 8, for an occurrence of 1 day duration`". The resulting occurrences are therefore { '`2018-08-08/2018-08-09`', '`2019-03-08/2019-03-09`', '`2019-08-08/2019-08-09`', … }.
 
 [example]
-The expression ‘R/2018-08-01T10:20:00/PT10M/F1ML{1,10}DT10H20M0SN’,  means that “for every month, select the calendar days 1 and 10, time 10:20:00, for an occurrence of 10 minutes duration”. The resulting occurrences are therefore { ‘2018-08-01T10:20:00/2018-08-01T10:30:00’, ‘2018-09-01T10:20:00/2018-09-01T10:30:00’,, … }.
+The expression '`R/2018-08-01T10:20:00/PT10M/F1ML{1,10}DT10H20M0SN`',  means that "`for every month, select the calendar days 1 and 10, time 10:20:00, for an occurrence of 10 minutes duration`". The resulting occurrences are therefore { '`2018-08-01T10:20:00/2018-08-01T10:30:00`', '`2018-09-01T10:20:00/2018-09-01T10:30:00`',, … }.
 
 [example]
-The expression ‘R/2018-09-01/P1D/F1YL9M3K1IN’, means “for every year, select the first Wednesday in September for an occurrence of 1 day duration”. The resulting occurrences are therefore { ‘2018-09-05/2018-08-06’, ‘2019-09-04/2019-09-05’, ‘2020-09-02/2020-09-02’, … }.
+The expression '`R/2018-09-01/P1D/F1YL9M3K1IN`', means "`for every year, select the first Wednesday in September for an occurrence of 1 day duration`". The resulting occurrences are therefore { '`2018-09-05/2018-08-06`', '`2019-09-04/2019-09-05`', '`2020-09-02/2020-09-02`', … }.
 
 
 ==== Time scale unit precision
@@ -233,23 +233,24 @@ In a repeat rule with a selection part, the selection rules specified do not alw
 In this case, the selection rules shall inherit from time interval start the values of time scale units that are of lower order than those used in the eligibility part.
 
 [example]
-Given the expression ‘R/2018-08-01T01:02:03/P5M/F1D’, there is no selection part, however, the selection part is inferred from the time scale units of lower order than that of the eligibility part ‘F1D’, the “calendar day” unit. The specific time scale units specified in the time interval start and of lower order than “calendar day” are clock hour, clock minute and clock second. The inferred selection part directly takes values for those units from time interval start, resulting in the selection part ‘LT1H2M3S’. The resulting occurrences are therefore { ‘2018-08-01T01:02:03/2018-08-01T01:07:03’, ‘2018-08-02T01:02:03/2018-08-02T01:07:03’, … }.
+Given the expression '`R/2018-08-01T01:02:03/P5M/F1D`', there is no selection part, however, the selection part is inferred from the time scale units of lower order than that of the eligibility part '`F1D`', the "`calendar day`" unit. The specific time scale units specified in the time interval start and of lower order than "`calendar day`" are clock hour, clock minute and clock second. The inferred selection part directly takes values for those units from time interval start, resulting in the selection part '`LT1H2M3S`'. The resulting occurrences are therefore { '`2018-08-01T01:02:03/2018-08-01T01:07:03`', '`2018-08-02T01:02:03/2018-08-02T01:07:03`', … }.
 
 [example]
-Given the expression ‘R/2018Y8M1DT1H/P1D/F2ML{1,3}D’, the eligible time intervals are the second month of a 2-month period, selecting for the calendar days “1” and “3”. Since the time scale units of lower order than calendar day (“D”) do not have specified units, the clock hours from the initial start date is inherited in the selection rule, resulting in the selection part ‘L{1,3}DT1H’. The resulting occurrences are { ‘2018Y8M1DT1H/2018Y8M2DT1H’ , ‘2018Y8M3DT1H/2018Y8M3DT1H’, ‘2018Y10M1DT1H/2018Y10M2DT1H’ , ‘2018Y10M3DT1H/2018Y10M3DT1H’, … }
+Given the expression '`R/2018Y8M1DT1H/P1D/F2ML{1,3}D`', the eligible time intervals are the second month of a 2-month period, selecting for the calendar days "`1`" and "`3`". Since the time scale units of lower order than calendar day ("`D`") do not have specified units, the clock hours from the initial start date is inherited in the selection rule, resulting in the selection part '`L{1,3}DT1H`'. The resulting occurrences are { '`2018Y8M1DT1H/2018Y8M2DT1H`' , '`2018Y8M3DT1H/2018Y8M3DT1H`', '`2018Y10M1DT1H/2018Y10M2DT1H`' , '`2018Y10M3DT1H/2018Y10M3DT1H`', … }
 
 [example]
-‘R/20150104T083000/PT15M00S/F2YL1M1KT{8,9}H30M’ expresses a recurring interval (number of occurrences is unspecified) whose first occurrence is January 4, 2015, 8:30-8:45 AM, and subsequent occurrences, all of the same duration (15 minutes), are determined by the repeat cycle for which the following evaluation sequence is provided:
-+
-*	the expression ‘2Y’ indicates that the eligible time intervals have a repeating cycle of two years, and each eligible time interval is 1 year in length, the second year within its repeating interval;
+====
+'`R/20150104T083000/PT15M00S/F2YL1M1KT{8,9}H30M`' expresses a recurring interval (number of occurrences is unspecified) whose first occurrence is January 4, 2015, 8:30-8:45 AM, and subsequent occurrences, all of the same duration (15 minutes), are determined by the repeat cycle for which the following evaluation sequence is provided:
+
+*	the expression '`2Y`' indicates that the eligible time intervals have a repeating cycle of two years, and each eligible time interval is 1 year in length, the second year within its repeating interval;
 *	From this information together with the specification of the first occurrence, it is calculated that:
 **	the first eligible time interval is the calendar year 2015 (the year during which the first occurrence takes place)
 ** the first repeating interval is the two-year period comprising calendar years 2014 and 2015;
 * the subsequent recurring intervals are then determined by the selection part;
-** the expression ‘1M’ indicates that the matching occurrences are limited to January only;
-** the expression ‘1K’ indicates that the matching occurrences are limited to Sundays only;
-** the expression ‘{8,9}H’ indicates that the matching occurrences have clock hours 8 or 9;
-** the expression ‘30M’ indicates that the matching occurrences have a clock minute value of 30, combined with specified clock hours, the starting times are determined to be 8:30AM and 9:30 AM;
-** since the selection rules lacks specified values for clock seconds, in accordance with 14.6.3, they should be obtained from the clock seconds value of the “time interval start” of ‘20150104T083000’, hence the clock seconds selection rule is specified as value ‘00’;
-** the recurrent occurrences therefore resolve to the rule “in the second year of every two year period beginning year 2014, for every Sunday in January at both 8:30:00 AM and 9:30:00 AM, create a 15 minutes occurrence.”
-
+** the expression '`1M`' indicates that the matching occurrences are limited to January only;
+** the expression '`1K`' indicates that the matching occurrences are limited to Sundays only;
+** the expression '`{8,9}H`' indicates that the matching occurrences have clock hours 8 or 9;
+** the expression '`30M`' indicates that the matching occurrences have a clock minute value of 30, combined with specified clock hours, the starting times are determined to be 8:30AM and 9:30 AM;
+** since the selection rules lacks specified values for clock seconds, in accordance with 14.6.3, they should be obtained from the clock seconds value of the "`time interval start`" of '`20150104T083000`', hence the clock seconds selection rule is specified as value '`00`';
+** the recurrent occurrences therefore resolve to the rule "`in the second year of every two year period beginning year 2014, for every Sunday in January at both 8:30:00 AM and 9:30:00 AM, create a 15 minutes occurrence.`"
+====

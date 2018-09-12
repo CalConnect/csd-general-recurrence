@@ -109,10 +109,10 @@ defined in <<ISO8601-1>>.
 
 
 [example]
-The tenth week of the calendar year is represented by the expression ‘10W’.
+The tenth week of the calendar year is represented by the expression '`10W`'.
 
 [example]
-The second last week of the calendar year is represented by the expression ‘-2W’.
+The second last week of the calendar year is represented by the expression '`-2W`'.
 
 
 NOTE: Week 53 can only occur when Thursday is January 1 or if it is a
@@ -218,10 +218,10 @@ hourSR = [hourE]
 Valid values are [0] to [23].
 
 [example]
-‘23H’ represents the 23rd (last) hour of day.
+'`23H`' represents the 23rd (last) hour of day.
 
 [example]
-‘0H’ represents the beginning hour of day.
+'`0H`' represents the beginning hour of day.
 
 
 [[selection-minutes]]
@@ -322,7 +322,7 @@ day of month numbers 1, 2 and 3 are only 3, therefore the position
 of 100 cannot be selected.
 
 [example]
-In a monthly context, the expression ‘L2K2IN9D’ refers to the
+In a monthly context, the expression '`L2K2IN9D`' refers to the
 ninth day following the second Tuesday.
 
 
@@ -351,7 +351,7 @@ intervals starting on the first and third Mondays, each of
 a duration of 5-days long.
 
 [example]
-'LLL2K2IN/P9DN4K2IN' expresses the selection of “the second Thursday following the second Tuesday”, through selecting the “9-day blocks starting at the second Tuesday, then select the second Thursday in the 9-day blocks”.
+'LLL2K2IN/P9DN4K2IN' expresses the selection of "`the second Thursday following the second Tuesday`", through selecting the "`9-day blocks starting at the second Tuesday, then select the second Thursday in the 9-day blocks`".
 
 NOTE: [selection-component]["/"][duration] is by itself a valid
 time interval.
@@ -380,13 +380,13 @@ selects the February 29 leap day. It matches the first instance of
 the date February 29th in the years 2018 to 2022.
 
 [example]
-‘L5M7K2IN’ represents “the second Sunday of May”. When placed in a yearly context, the date falls on the International Mother’s Day.
+'`L5M7K2IN`' represents "`the second Sunday of May`". When placed in a yearly context, the date falls on the International Mother`'s Day.
 
 [example]
-‘L11M4K4INT17HZ-05H’ represents the date “8:00:00 p.m. of the fourth Thursday in November, in UTC-05:00”. When placed in a yearly context, it represents 8:00:00 p.m. falling on the U.S. Thanksgiving Day.
+'`L11M4K4INT17HZ-05H`' represents the date "`8:00:00 p.m. of the fourth Thursday in November, in UTC-05:00`". When placed in a yearly context, it represents 8:00:00 p.m. falling on the U.S. Thanksgiving Day.
 
 [example]
-‘L4M{19,20,21,22,23,24,25,26}D4K1IN’ represents the first Thursday after April 18th. When placed in a yearly context, the date falls on the First Day of Summer (sumardagurinn fyrsti) in Iceland.
+'`L4M{19,20,21,22,23,24,25,26}D4K1IN`' represents the first Thursday after April 18th. When placed in a yearly context, the date falls on the First Day of Summer (sumardagurinn fyrsti) in Iceland.
 
 
 ==== Context set by selection

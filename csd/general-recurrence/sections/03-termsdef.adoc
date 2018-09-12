@@ -46,7 +46,7 @@ set of _instants_ (<<ISO8601-1>>), computed by a _repeating rule_
 
 repeatedly occurring day in a calendar that is represented by criteria set by one or more _selection rules_ (<<term-sel-rule>>), but does not always resolve to a fixed calendar day in every _repeating cycle_ (<<term-repeat-cycle>>)
 
-NOTE: The selection of this term pays homage to the phrase “movable feast” used in some calendars to indicate the rule-based determination of annual events.
+NOTE: The selection of this term pays homage to the phrase "`movable feast`" used in some calendars to indicate the rule-based determination of annual events.
 
 [example]
 Thanksgiving Day in the U.S. and Canada, are considered movable days, set to the fourth Thursday in November and the second Monday in October, respectively.
@@ -55,7 +55,7 @@ Thanksgiving Day in the U.S. and Canada, are considered movable days, set to the
 First Day of Summer (sumardagurinn fyrsti) in Iceland is considered a movable day, set to the first Thursday after April 18th.
 
 [example]
-Father’s Day is celebrated on the third Sunday in June in North America and is considered a movable day.
+Father`'s Day is celebrated on the third Sunday in June in North America and is considered a movable day.
 
 
 
