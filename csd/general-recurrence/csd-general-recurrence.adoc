@@ -1,13 +1,13 @@
 = CalConnect Standard: Date and time -- General recurrence representation
 :title: Date and time -- General recurrence representation
-:docnumber: CD 18012
+:docnumber: 18012
 :status: working-draft
 :doctype: standard
 :edition: 1
 :copyright-year: 2018
 :revdate: 2018-09-10T00:00:00Z
 :language: en
-:technical-committee: VCARD
+:technical-committee: VCARD, CALENDAR
 :draft:
 :toc:
 
