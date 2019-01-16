@@ -66,7 +66,7 @@ and 9:30:00 AM, create a 15 minutes occurence.`"
 
 [[figure-basic-recurrences]]
 .Resulting occurrences of the rule F3YL{2,4,6,8,10}M1DN
-image::images/basic-concepts.png[]
+image::basic-concepts.png[]
 
 
 <<figure-basic-recurrences>> demonstrates that the repeating cycle
@@ -101,7 +101,7 @@ September 10th.
 
 [[figure-higher-order]]
 .When the repeating cycle is of a higher order than the selection part
-image::images/repeating-cycle-higher-order-as-selection.png[]
+image::repeating-cycle-higher-order-as-selection.png[]
 
 
 [[annexa-same-order]]
@@ -134,7 +134,7 @@ resulting in no occurrences.
 
 [[figure-same-order]]
 .When the repeating cycle is of the same order as the selection part and mismatches
-image::images/repeating-cycle-same-order-as-selection.png[]
+image::repeating-cycle-same-order-as-selection.png[]
 
 
 
@@ -158,5 +158,5 @@ month 3 due to the application of the selection rule.
 
 [[figure-lower-order]]
 .When the repeating cycle is of a lower order than the selection part
-image::images/repeating-cycle-lower-order-as-selection.png[]
+image::repeating-cycle-lower-order-as-selection.png[]
 
