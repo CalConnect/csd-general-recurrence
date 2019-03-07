@@ -1,5 +1,5 @@
 <bibitem type="international-standard" id="ISO/IEC646">
-  <fetched>2018-12-10</fetched>
+  <fetched>2019-03-07</fetched>
   <title format="text/plain" language="en" script="Latn">Information technology -- ISO 7-bit coded character set for information interchange</title>
   <uri type="src">https://www.iso.org/standard/4777.html</uri>
   <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:4777:en</uri>
@@ -44,7 +44,7 @@
   </relation>
   <relation type="instance">
     <bibitem type="international-standard">
-      <fetched>2018-12-10</fetched>
+      <fetched>2019-03-07</fetched>
       <title format="text/plain" language="en" script="Latn">Information technology -- ISO 7-bit coded character set for information interchange</title>
       <uri type="src">https://www.iso.org/standard/4777.html</uri>
       <uri type="obp">https://www.iso.org/obp/ui/#!iso:std:4777:en</uri>
