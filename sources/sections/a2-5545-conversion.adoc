@@ -1,0 +1,104 @@
+
+[[annexb]]
+[appendix,obligation=informative]
+== Compatibility considerations of repeat rules with RFC 5545 recurrences
+
+=== Evaluation of repeat rules
+
+In this document, the evaluation of repeat rules
+(see <<recurrence-repeat-rule>>) rely on
+explicit specification of selection rules (see <<selection>>) and the direct
+inheritance of time scale component information from the initial start
+date.
+
+
+=== Inheritance of time scale component information
+
+In the evaluation of repeat rules within this document as well as in
+<<RFC5545>>, a number of time scale components can be directly
+inherited from the initial start date.
+
+In terms of <<RFC5545>> specifically:
+
+* when the `FREQ` parameter is set to `SECONDLY`, but without a
+`BYSECOND` parameter, the `BYSECOND` selection is directly inherited
+from the clock seconds value from the initial start date;
+
+* when the `FREQ` parameter is set to `MINUTELY`, but without a
+`BYMINUTE` parameter, the `BYMINUTE` selection is directly inherited
+from the clock minutes value from the initial start date;
+
+* when the `FREQ` parameter is set to `HOURLY`, but without a
+`BYHOUR` parameter, the `BYHOUR` selection is directly inherited from
+the clock hours value from the initial start date.
+
+[[annexb-implicit-selection]]
+=== Implicit selection rules of RFC 5545
+
+In <<RFC5545>>, however, the evaluation of certain repeat rules also
+relies on implicit selection rules inherited indirectly from the
+initial start date.
+
+Specifically,
+
+* when the `FREQ` parameter is set to `WEEKLY`, but without a `BYDAY`
+parameter, the `BYDAY` selection is inherited from the calendar day of
+week value from the initial start date (note that the calendar day of
+week value is not directly specified in the initial start date, but it
+has to be inferred);
+
+* when the `FREQ` parameter is set to `MONTHLY, but without both
+`BYMONTHDAY` and `BYDAY` parameters, the `BYMONTHDAY` selection is
+inherited from the calendar month of year value from the initial start
+date;
+
+* when the `FREQ` parameter is set to `YEARLY` but without a
+`BYYEARDAY` parameter,
+
+** if no `BYMONTH` or `BYWEEKNO` parameter is set:
+
+*** if the `BYMONTHDAY` parameter is provided, then the `BYMONTH`
+selection is inherited from the calendar month of year value from the
+initial start date;
+
+*** if the `BYDAY` parameter is not set, then the `BYMONTH` selection
+is inherited from the calendar month of year value from the initial
+start date;
+
+** if no `BYMONTHDAY`, `BYWEEKNO` or `BYDAY` parameter is set, the
+`BYMONTHDAY` selection is inherited from calendar day of month of the
+initial start date;
+
+** if there is a `BYWEEKNO` parameter set but no `BYMONTHDAY` or
+`BYDAY`, the `BYDAY` selection is inherited from the calendar day of
+week of the initial start date.
+
+
+[example]
+In evaluating a simplified example expression from <<RFC5545>>, with
+`DTSTART` set to `19970902T090000` and `RRULE` set to
+`FREQ=WEEKLY;INTERVAL=2`, will result in the instance series of "`1997
+September 2, 16, 30; October 14...`". This resulting instance series
+relies on an implicit understanding that `FREQ=WEEKLY` always requires
+selection of the `BYDAY` parameter, which is not specified in the
+original selection rule. In this case, `BYDAY` is implicitly set to
+Tuesdays as originally obtained from the `DTSTART` value being a
+Tuesday.
+
+
+=== Achieving equivalent selection criteria in RFC 5545 syntax
+
+Using mechanisms described in this document, implicit selection rules
+are not allowed. In order to convert a <<RFC5545>> recurrence rule into
+a repeat rule specified by <<recurrence-repeat-rule>>, the implicit
+selection rules based on indirect inheritance must be made into
+explicit selection rules.
+
+
+[example]
+Following the example in <<annexb-implicit-selection>>, the value of
+Tuesday is considered to be indirectly inferred from the initial start
+date since it is not explicitly specified. To achieve the same effect
+using mechanisms of this document, the `BYDAY` selection rule in
+<<RFC5545>> must be explicitly set as a selection rule, such as in
+`L1KN`.

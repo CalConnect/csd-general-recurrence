@@ -1,7 +1,7 @@
 = CalConnect Standard: Date and time -- General recurrence representation
 :title: Date and time -- General recurrence representation
 :docnumber: 18012
-:status: final-draft
+:status: published
 :doctype: standard
 :edition: 1
 :copyright-year: 2018
@@ -9,9 +9,6 @@
 :published-date: 2018-09-10T00:00:00Z
 :language: en
 :technical-committee: VCARD, CALENDAR
-:draft:
-:toc:
-:stem:
 :xrefstyle: short
 :imagesdir: images
 :docfile: cc-18012.adoc

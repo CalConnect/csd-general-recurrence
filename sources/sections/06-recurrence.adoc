@@ -1,0 +1,256 @@
+
+[[recurrence]]
+== Recurring time intervals with repeat rules
+
+=== General
+
+This clause extends <<ISO8601-1,clause 5.4>> "`Recurring Time Interval`",
+by adding a rule part that defines the repeat pattern. The rule part is
+appended to the recurring time interval structure.
+
+It describes a generic repeat rule representation that is a superset to, but mostly
+interchangeable with, the `RECUR` syntax specified in IETF <<RFC5545>>.
+This feature makes use of representations defined in <<selection>>.
+
+
+=== Method of specification
+
+A recurring time interval is represented as follows:
+
+* Optionally, a number of occurrences. If absent, the number of
+occurrences is unbounded. Each occurrence is called an "`event`".
+
+* A time interval, as specified in <<CC18011,clause 6.6>>.
+
+* A repeat rule.
+
+[[recurrence-repeat-rule]]
+=== Repeat rule
+
+
+==== General
+
+A repeat rule identifies a set of matching instants according to
+specification of a repeating cycle used together with selection rules.
+
+[source]
+----
+repeat-rule = ["F"][eligible-time-intervals][selection]
+----
+
+Where,
+
+* the frequency designator ["`F`"] precedes the identification of a series
+of repeating time intervals ("`repeating intervals`");
+
+* [selection] is specified in <<selection>>.
+
+
+Within each repeating interval, one sub-interval is distinguished, called an
+"`eligible time interval`".
+
+
+[[eti]]
+==== Eligible time intervals
+
+Within each eligible time interval is one or more occurrences, as determined by [selection-rules], which are optional. If `[selection-rules]` is omitted, there is a single occurrence at the end of the eligible time interval.
+
+
+`[eligible-time-intervals]` in the repeat rule above is one of the following:
+
+.	[[eligible-time-intervals-year]]Time interval of one or more years:	`[yearE]`
+.	[[eligible-time-intervals-month]]Time interval of one or more months:	`[monthE]`
+.	[[eligible-time-intervals-week]]Time interval of one or more weeks: 	`[weekE]`
+.	[[eligible-time-intervals-day]]Time interval of one or more days: 	`[dayE]`
+.	Time interval of one or more hours: 	`[hourE]`
+.	Time interval of one or more minutes:	`[minE]`
+.	Time interval of one or seconds:		`[secE]`
+
+* The duration of each repeating interval is the value of
+[eligible-time-intervals].
++
+[example]
+If the value of [eligible-time-intervals] is `8Y`, the length of each
+repeating time interval is 8 years.
+
+
+* The duration of each eligible time interval is one-unit of the chosen
+time scale component in which the duration of [eligible-time-intervals]
+is expressed.
++
+[example]
+If the value of [eligible-time-intervals] is `8Y`, then the time scale
+component is year, and each eligible interval is of length 1
+year.
+
+
+* Each eligible time interval begins x-1 units of the selected time
+scale component following the beginning of its repeating interval,
+where x is the coefficient of the unit.
++
+[example]
+If the value of [eligible-time-intervals] is `8Y`, the eligible time
+interval is the 7th year within the 8-year repeating interval.
+
+
+These properties together determine an exact set of eligible time intervals.
+
+
+[example]
+In the eligibility part, the expression `F2Y` places the eligible time
+intervals as the second year of each 2-year repeating interval.
+
+[example]
+In the eligibility part, the expression `F8D` places the eligible time
+intervals as the 8th day of each 8-day interval.
+
+
+==== Selection part and selection rules
+
+The selection part provides a list of one or more selection rules,
+which specify conditions of matching one or more instants within a set
+of time intervals.
+Representations for possible selection rules are specified in <<selection>>.
+
+When used with a set of eligible time intervals, the selection part
+identifies a set of instants within the eligible time intervals that
+match the selection rules.  Each instant marks the beginning of an
+occurrence (a recurring interval).
+
+
+=== Complete representation
+
+A complete representation of a recurring time interval with repeat
+rules, shall be in accordance with <<selection>> and <<recurrence-repeat-rule>>,
+combining any time interval representation as defined in
+<<CC18011>> and in <<ISO8601-1,clause 5.4.3>>, with the repeat rule:
+
+[source]
+----
+["R"][i]["/"][time-interval]["/"][repeat-rule]
+----
+
+Where,
+
+* ["`R`"] is the recurring time interval designator;
+
+* [i] is the number of recurrences (optional);
+
+* [time-interval] is a valid time interval;
+
+* [repeat-rule] is a repeat rule defined in <<recurrence-repeat-rule>>.
+
+The following examples all show a recurring interval of 12 occurrences,
+each of 90 minutes duration.  The first occurrence begins September 29,
+2015 at 2pm. The second occurrence begins two weeks later, and so on.
+
+[example]
+`R12/20150929T140000/20150929T153000/F2W`, interval in implied form, specified by start and end
+
+[example]
+`R12/20150929T140000/P1H30M0S/F2W`, interval in implied form, specified by start and duration
+
+[example]
+`R12/P2H30M0S/20150929T153000/F2W`, interval in implied form, specified by duration and end
+
+[example]
+`R12/2015‑09‑29T14:00:00/2015‑09‑29T15:30:00/F2W`, interval in extended form, specified by start and end
+
+[example]
+`R12/2015‑09‑29T14:00:00/P1H30M0S/F2W`, interval in extended form, specified by start and duration
+
+[example]
+`R12/P1H30M0S/2015‑09‑29T15:30:00/F2W`, interval in extended form, specified by duration and end
+
+[example]
+`R12/2015Y9M29DT14H0M0S/2015Y9M29DT15H30M00S/F2W`, interval in explicit form, specified by start and end
+
+[example]
+`R12/2015Y9M29DT14H0M0S/P1H30M0S/F2W`, interval in explicit form, specified by start and duration
+
+[example]
+`R12/P1H30M0S/2015Y9M29DT15H30M00S/F2W`, interval in explicit form, specified by start and duration
+
+
+
+=== Representations other than complete
+
+A representation other than complete of a recurring time interval with repeat rule shall be an expression in accordance with <<selection>> and <<recurrence-repeat-rule>>, where the time interval is represented in accordance with <<ISO8601-1,clause 4.4.5>>.
+
+
+
+
+
+=== Evaluation of a repeat rule
+
+==== General
+
+A repeat rule specifies a set of occurrences where each occurrence is a time interval.
+
+The occurrences resulting from a repeat rule are calculated as follows:
+
+* determine the eligible time intervals;
+
+* apply all selection rules to the eligible time intervals; and
+
+* obtain the resulting occurrences.
+
+
+A detailed explanation of interactions between eligible time intervals and the selection part is provided in <<annexa>>.
+
+Evaluation compatibility with <<RFC5545>> is discussed in <<annexb>>.
+
+
+[example]
+The expression '`R/2018-08-08/P1D/F1YL{3,8}M8DN`', means "`for every year, select the calendar months 3 (March) and 8 (August), calendar day 8, for an occurrence of 1 day duration`". The resulting occurrences are therefore { '`2018-08-08/2018-08-09`', '`2019-03-08/2019-03-09`', '`2019-08-08/2019-08-09`', … }.
+
+[example]
+The expression '`R/2018-08-01T10:20:00/PT10M/F1ML{1,10}DT10H20M0SN`',  means that "`for every month, select the calendar days 1 and 10, time 10:20:00, for an occurrence of 10 minutes duration`". The resulting occurrences are therefore { '`2018-08-01T10:20:00/2018-08-01T10:30:00`', '`2018-09-01T10:20:00/2018-09-01T10:30:00`',, … }.
+
+[example]
+The expression '`R/2018-09-01/P1D/F1YL9M3K1IN`', means "`for every year, select the first Wednesday in September for an occurrence of 1 day duration`". The resulting occurrences are therefore { '`2018-09-05/2018-08-06`', '`2019-09-04/2019-09-05`', '`2020-09-02/2020-09-02`', … }.
+
+
+==== Time scale unit precision
+
+The resulting occurrences of a repeat rule shall have a time scale unit resolution equal to the lowest order time scale unit specified in the repeat rule.
+
+[example]
+In the expression `R/2018Y1M/P1M/F3M`, the lowest order time scale unit specified is month, hence the resolution is month precision. This expression resolves to the set `{ 2018-01/2018-02, 2018-04/2018-05 ... }`
+
+[example]
+In the expression `R/2018Y1M1D/P1D/F3M`, the lowest order time scale unit specified is day, hence the resolution is day precision. This expression resolves to the set `{ 2018-01-01/2018-01-02, 2018-04-01/2018-04-02 ... }`
+
+[example]
+In the expression `R/2018Y1M/PT10M/F1M`, the lowest order time scale unit specified is minute, hence the resolution is minute precision. This expression resolves to the set `{ 2018-01-01T00:00/2018-01-01T00:10, 2018-02-01T00:00/2018-02-01T00:10, ... }`
+
+
+==== Inheritance of component values from time interval start
+
+
+In a repeat rule with a selection part, the selection rules specified do not always fully account for all the time scale components provided in the initial start time, i.e. when there is no selection part, or if there is no one-to-one correspondence of time scale units used in the initial start time and those used in the selection part.
+
+In this case, the selection rules shall inherit from time interval start the values of time scale units that are of lower order than those used in the eligibility part.
+
+[example]
+Given the expression '`R/2018-08-01T01:02:03/P5M/F1D`', there is no selection part, however, the selection part is inferred from the time scale units of lower order than that of the eligibility part '`F1D`', the "`calendar day`" unit. The specific time scale units specified in the time interval start and of lower order than "`calendar day`" are clock hour, clock minute and clock second. The inferred selection part directly takes values for those units from time interval start, resulting in the selection part '`LT1H2M3S`'. The resulting occurrences are therefore { '`2018-08-01T01:02:03/2018-08-01T01:07:03`', '`2018-08-02T01:02:03/2018-08-02T01:07:03`', … }.
+
+[example]
+Given the expression '`R/2018Y8M1DT1H/P1D/F2ML{1,3}D`', the eligible time intervals are the second month of a 2-month period, selecting for the calendar days "`1`" and "`3`". Since the time scale units of lower order than calendar day ("`D`") do not have specified units, the clock hours from the initial start date is inherited in the selection rule, resulting in the selection part '`L{1,3}DT1H`'. The resulting occurrences are { '`2018Y8M1DT1H/2018Y8M2DT1H`' , '`2018Y8M3DT1H/2018Y8M3DT1H`', '`2018Y10M1DT1H/2018Y10M2DT1H`' , '`2018Y10M3DT1H/2018Y10M3DT1H`', … }
+
+[example]
+====
+'`R/20150104T083000/PT15M00S/F2YL1M1KT{8,9}H30M`' expresses a recurring interval (number of occurrences is unspecified) whose first occurrence is January 4, 2015, 8:30-8:45 AM, and subsequent occurrences, all of the same duration (15 minutes), are determined by the repeat cycle for which the following evaluation sequence is provided:
+
+*	the expression '`2Y`' indicates that the eligible time intervals have a repeating cycle of two years, and each eligible time interval is 1 year in length, the second year within its repeating interval;
+*	From this information together with the specification of the first occurrence, it is calculated that:
+**	the first eligible time interval is the calendar year 2015 (the year during which the first occurrence takes place)
+** the first repeating interval is the two-year period comprising calendar years 2014 and 2015;
+* the subsequent recurring intervals are then determined by the selection part;
+** the expression '`1M`' indicates that the matching occurrences are limited to January only;
+** the expression '`1K`' indicates that the matching occurrences are limited to Sundays only;
+** the expression '`{8,9}H`' indicates that the matching occurrences have clock hours 8 or 9;
+** the expression '`30M`' indicates that the matching occurrences have a clock minute value of 30, combined with specified clock hours, the starting times are determined to be 8:30AM and 9:30 AM;
+** since the selection rules lacks specified values for clock seconds, in accordance with 14.6.3, they should be obtained from the clock seconds value of the "`time interval start`" of '`20150104T083000`', hence the clock seconds selection rule is specified as value '`00`';
+** the recurrent occurrences therefore resolve to the rule "`in the second year of every two year period beginning year 2014, for every Sunday in January at both 8:30:00 AM and 9:30:00 AM, create a 15 minutes occurrence.`"
+====

@@ -1,0 +1,14 @@
+
+[bibliography]
+== Bibliography
+
+* [[[ISOIEC646,ISO/IEC 646]]], _Information technology -- ISO 7-bit coded character set for information interchange_
+
+* [[[ISO8601,ISO 8601:2004]]], _Data elements and interchange formats -- Information interchange -- Representation of dates and times_
+
+* [[[RFC5545,IETF RFC 5545]]], _AUTOFILL_
+
+//* [[[VOBJECT,IETF I.D-calconnect-vobject-vformat]]], _AUTOFILL_
+
+//* [[[ISO80000-3,ISO 80000-3]]], _Quantities and units -- Part 3: Space and time_
+

@@ -1,0 +1,136 @@
+
+[[tda]]
+[source=CC18011]
+== Terms, definitions, symbols and abbreviations
+
+=== Terms and definitions
+
+[[term-repeat-rule]]
+==== repeat rule
+
+consists of a set of eligible time intervals (<<term-eti>>) and
+selection rules (<<term-sel-rule>>) that allows computation of a set of
+matching instants (<<term-matching-instants>>)
+
+[[term-sel-rule]]
+==== selection rule
+
+rule specifying restrictions on the value of a _time scale component_
+(<<ISO8601-1,clause 3.1.3.9>>)
+
+[[term-repeat-cycle]]
+==== repeat cycle
+
+set of repeating _instants_ (<<ISO8601-1,clause 3.1.1.2>>), calculated by
+a specified start instant and specified _duration_
+(<<ISO8601-1,clause 3.1.1.6>>) gap between the repeating instants
+
+[[term-eti]]
+==== eligible time interval
+
+_time interval_ (<<ISO8601-1,clause 3.1.1.3>>) eligible for matching
+using _selection rules_ (<<term-sel-rule>>)
+
+
+[[term-matching-instants]]
+==== matching instants
+
+set of _instants_ (<<ISO8601-1>>), computed by a _repeating rule_
+(<<term-repeat-rule>>), that belongs within _eligible time intervals_
+(<<term-eti>>) and fulfills criteria set by specified _selection rules_
+(<<term-sel-rule>>)
+
+
+[[term-movable-day]]
+==== movable day
+
+repeatedly occurring day in a calendar that is represented by criteria set by one or more _selection rules_ (<<term-sel-rule>>), but does not always resolve to a fixed calendar day in every _repeating cycle_ (<<term-repeat-cycle>>)
+
+NOTE: The selection of this term pays homage to the phrase "`movable feast`" used in some calendars to indicate the rule-based determination of annual events.
+
+[example]
+Thanksgiving Day in the U.S. and Canada, are considered movable days, set to the fourth Thursday in November and the second Monday in October, respectively.
+
+[example]
+First Day of Summer (sumardagurinn fyrsti) in Iceland is considered a movable day, set to the first Thursday after April 18th.
+
+[example]
+Father`'s Day is celebrated on the third Sunday in June in North America and is considered a movable day.
+
+
+
+
+[[symbols]]
+=== Symbols
+
+[[symbols-general]]
+==== General
+
+Representations specified in this document make use of symbols given in <<CC18011>> and the following.
+
+
+[[symbols-composite]]
+==== Composite component symbols
+
+selection::
+representation for a set of selection rules as determined in <<selection-general>>
+
+
+[[symbols-inplace]]
+==== Symbols used in place of digits or signs
+
+These symbols are used to represent characters in the date and time
+representations. They are used in representations only, and are
+replaced by one or more characters, as described, in expressions:
+
+n::
+a positive integer or value, may be left absent to signify an unbounded value
+
+i::
+a positive integer
+
+!::
+indicates that the token following this symbol is optional (may be omitted)
+
+
+[[symbols-designator]]
+==== Designator symbols
+
+These symbols are used to represent designators in the date and time expressions:
+
+"`R`"::
+the recurring time interval designator, represented by the character "`R`"
+
+"`I`"::
+the instance designator, represented by the character "I", indicates that a specific instance is to be selected within the time scale component
+
+"`F`"::
+the frequency designator, represented by the character "F", preceding the component which represents the frequency part of a repeating rule
+
+"`L`"::
+the selection prefix designator, represented by the character "`L`", preceding the component which represents the selection part of a repeating rule until encountering the corresponding suffix designator.
+
+"`N`"::
+the selection suffix designator, represented by the character "`N`", following the component which represents the selection part of a repeating rule from the corresponding prefix designator.
+
+"`_x_`"::
+the representation of any character "`_x_`" as according to the textual representation of "`_x_`" in the <<ISOIEC646>> repertoire
+
+NOTE: The choice of "`L`" and "`N`" for the selection designators is due to
+the fact that the word "selection" contains both "`L`" and "`N`" in the
+correct order.
+
+
+
+
+[[symbols-separator]]
+==== Separator symbols
+
+In date and time expressions and date and time representations, the following characters are used as separators.
+
+"`/`" (solidus)::
+the "`/`" solidus character separates start and end times in the representation of a time interval, as well as the symbol '`R`' from the remainder of a recurring time interval representation. A solidus may be replaced with a double hyphen ["`--`"] by mutual agreement of the communicating partners.
+
+"`.`" (period) and "`,`" (comma)::
+the "`.`" period and "`,`" comma characters are decimal signs used to separate the integer part from the decimal fraction of a number.
+

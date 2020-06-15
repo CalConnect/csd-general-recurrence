@@ -1,0 +1,162 @@
+
+[[annexa]]
+[appendix,obligation=informative]
+== Interactions between eligible time intervals with the selection part
+
+=== General
+
+The interaction between eligible time intervals and selection rules
+specified within a repeating rule give rise to interesting properties
+that users should be aware of.
+
+[[annexa-example]]
+=== Sample evaluation of a recurring time interval with repeat rules
+
+`R/20150104T083000/PT15M00S/F2YL1M1KT{8,9}H30MN` expresses a recurring
+interval (number of occurrences is unspecified) whose first occurrence
+is January 4, 2015, 8:30-8:45 AM, and subsequent occurrences, all of
+the same duration (15 minutes), are determined by the repeat cycle for
+which the following evaluation sequence is provided.
+
+* the character `F` indicates that the formula for determining eligible
+time intervals follows;
+
+* the expression `2Y` indicates that the eligible time intervals have a
+repeating cycle of two years, and each eligible time interval is 1 year
+in length, the second year within its repeating interval;
+
+* From this information together with the specification of the first
+occurrence, it is calculated that:
+
+** the first eligible time interval is the calendar year 2015 (the year
+during which the first occurrence takes place)
+
+** the first repeating interval is the two-year period comprising
+calendar years 2014 and 2015;
+
+* the subsequent recurring intervals are then determined by the
+selection part;
+
+** the character `L` indicates that selection parts follow;
+
+** the expression `1M` indicates that the matching occurrences are
+limited to January only;
+
+** the expression `1K` indicates that the matching occurrences are
+limited to Sundays only;
+
+** the expression `T` indicates that intraday time scale components
+follow;
+
+** the expression `{8,9}H` indicates that the matching occurrences have
+clock hours 8 or 9;
+
+** the expression `30M` indicates that the matching occurrences have a
+clock minute value of 30, combined with specified clock hours, the
+starting times are determined to be 8:30AM and 9:30 AM;
+
+** since the selection rules lacks specified values for clock seconds,
+in accordance with 9.3.3, they should be obtained from the clock
+seconds value of the "`time interval start`" of `20150104T083000`, hence
+the clock seconds selection rule is specified as value `00`;
+
+** the recurrent occurrences therefore resolve to the rule "`in the second
+year of every two year period beginning year 2014, for every Sunday in January at both 8:30:00 AM
+and 9:30:00 AM, create a 15 minutes occurence.`"
+
+[[figure-basic-recurrences]]
+.Resulting occurrences of the rule F3YL{2,4,6,8,10}M1DN
+image::basic-concepts.png[]
+
+
+<<figure-basic-recurrences>> demonstrates that the repeating cycle
+denotes how often the eligible time intervals be evaluated. Within the
+eligible time intervals, the selection rules are applied. It is the
+overlap between the selection rules and eligible time intervals that
+produce the resulting occurrences.
+
+[[annexa-special-case]]
+=== Special case when the repeating cycle uses value 1
+
+When the repeating cycle is defined with a value 1 for any time unit
+(e.g. calendar year, calendar month, calendar day, calendar hour,
+etc.), the effect on the resulting occurrences are identical – the
+repeating cycle fully covers all instants of the time scale. Therefore,
+the resulting occurrences are fully described by the selection rules
+that apply.
+
+=== Orders of the repeating cycle and selection rules
+
+==== Repeating cycle of higher order than selection rules
+
+It is common in natural expressions and in calendar implementations
+that the repeating cycle uses a time scale unit of a higher order than
+that of the selection rules. The resulting occurrences are generally as
+expected by the creator of these rules.
+
+[example]
+<<figure-higher-order>> provides such a case; where the resulting
+occurrences happen once every three years, matching a single date of
+September 10th.
+
+[[figure-higher-order]]
+.When the repeating cycle is of a higher order than the selection part
+image::repeating-cycle-higher-order-as-selection.png[]
+
+
+[[annexa-same-order]]
+==== Repeating cycle of same order with selection rules
+
+When a time scale unit of the same order is used for both the repeating
+cycle and the selection rules, the following properties arise:
+
+* The effect of <<annexa-special-case>> applies;
+
+[example]
+A repeating rule of 1 month repeating cycle, with selection rules that
+are of the highest order of "`month`", has the same effect as the
+repeating cycle of 1 calendar year because every calendar month in the
+calendar year will be evaluated
+
+* A repeating rule with an n time unit repeating cycle, matched with
+selection rules of the same time unit, will provide occurrences that
+depend on the start instant of the repeating cycle.
+
+[example]
+A repeating cycle starting in April every 6 months will only match a
+monthly selection rule that contains April or October
+
+[example]
+<<figure-same-order>> demonstrates an instance of the second case where
+the repeating cycle does not overlap with eligible time intervals,
+resulting in no occurrences.
+
+
+[[figure-same-order]]
+.When the repeating cycle is of the same order as the selection part and mismatches
+image::repeating-cycle-same-order-as-selection.png[]
+
+
+
+==== Repeating cycle of lower order than selection rules
+
+When a time scale unit of a lower order is used for the repeating cycle
+than that of the selection rules, the following should be of note:
+
+* The effect of <<annexa-special-case>> applies;
+
+* A repeating rule with an n time unit repeating cycle, matched with
+selection rules of a lower order time unit, will provide occurrences
+that depend on the start instant of the repeating cycle.
+
+[example]
+<<figure-lower-order>> demonstrates this interaction of the second
+case, where the repeating cycle is of day order and a selection rule of
+calendar month order. Notice that there are no matches outside calendar
+month 3 due to the application of the selection rule.
+
+
+[[figure-lower-order]]
+.When the repeating cycle is of a lower order than the selection part
+image::repeating-cycle-lower-order-as-selection.png[]
+

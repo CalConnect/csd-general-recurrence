@@ -1,0 +1,20 @@
+[[scope]]
+== Scope
+
+The purpose of this document is to provide a generalized representation
+of selection rules and recurring time intervals with repeat rules
+in line with those of the time scale components and date and time
+representations described in <<ISO8601-1>>.
+
+Representations in this document describe a superset of recurrence
+rules to "RECUR" rules in <<RFC5545>>, but aims to maintain
+compatibility with it inasmuch possible.
+
+This document only supports date elements from the Gregorian calendar and
+times from the 24-hour clock.
+
+Date and time format representations described in this document
+utilizes numbers, alphabets and symbols defined in <<ISOIEC646>>.
+These representations are meant to be both human recognizable and
+machine readable. Character encoding of the representations is
+not covered in this document.

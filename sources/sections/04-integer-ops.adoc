@@ -1,0 +1,111 @@
+
+[[integer-ops]]
+== Set notation
+
+=== General
+
+A set is considered to be an orderless collection of elements.
+
+
+[[integer-set]]
+=== Integer set
+
+Curly braces enclosing a set of integers (with no specified order and
+separated by commas and zero or more spaces) are used to mean "`all
+members of the set`".
+
+Empty spaces ([" "]) after or before the element divider ([","])
+within a set expression
+are considered superfluous and only allowed for better readability.
+The evaluation of a set expression should always omit such empty
+spaces.
+
+
+[source]
+----
+intset = ["{"][intexpr-1][","][intexpr-2][","] ... [intexpr-n]["}"]
+----
+
+Where,
+
+* `intexpr-i` is `[i]` (a positive integer) or `[!]["-"][i]` (a negative integer)
+
+
+[example]
+`{1, 3, 5}` is a set of integers 1, 3 and 5.
+
+[example]
+`{-3, -6, 9}` is a set of integers -3, -6 and 9.
+
+
+=== Date and time expression set
+
+The notation form specified in <<integer-set>> also applies to
+a set of date and time expressions.
+
+[source]
+----
+exprset = ["{"][expr-1][","][expr-2][","] ... [expr-n]["}"]
+----
+
+Where,
+
+* `[expr-i]` is a valid date and time expression
+
+
+[example]
+`{1K,3K,5K}` is a set that contains the expressions for Monday, Wednesday and Friday.
+
+
+[[int-expand]]
+=== Integer set expansion for date and time expressions
+
+An integer set [intset] can replace a time component value [i] in a
+representation as long as the resulting expression is valid.
+
+[source]
+----
+intexpand = [intset][symbol(c)]
+----
+
+Where,
+
+* `[symbol(c)]` is the designated symbol for the time scale component.
+
+
+[example]
+If `c` is the timescale component "`month`", `[symbol(month)]` is the symbol for the calendar month time scale component -- the designated symbol `["M"]`.
+
+[example]
+`{1,2,3}K` is a set that expands to `{1K,2K,3K}`, which contains the expressions to specify Monday, Wednesday and Friday.
+
+[example]
+`2018YGP2M{1,3,5}I` expresses a shorter form of the set representation of
+`{ 2018Y1M1D/2018Y2M28D, 2018Y5M1D/2018Y6M30D, 2018Y9M1D/2018Y10M31D }`
+that uses time intervals from <<CC18011>>.
+
+
+[[expr-expand]]
+=== Expression set expansion for date and time expressions
+
+An expression set [exprset] can be expanded with another date and time
+expression as long as the resulting expression is valid.
+
+[source]
+----
+exprexpand = [exprset][expr]
+----
+
+
+Where,
+
+* `[expr]` is a date time expression, such that when conjoined with individual
+elements of `[exprset]` the resulting expanded set of date and time expressions
+remain valid.
+
+
+[example]
+`{2018Y3M,2019Y2M}1D` is a set that expands to `{2018Y3M1D,2019Y2M1D}`, which contains the date expressions for year 2018 March 1st and year 2019 February 1st.
+
+[example]
+`{1778Y3M,1889Y2M}{10,20}D` utilizes the syntax of <<int-expand>> and <<expr-expand>>, where the set expands to `{1778Y3M10D,1889Y2M10D,1778Y3M20D,1889Y2M20D}`. Since the order of elements are not specified within a set, the expression is equivalent to `{1778Y3M10D,1778Y3M20D,1889Y2M10D,1889Y2M20D}`.
